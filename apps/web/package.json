@@ -12,6 +12,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "@repo/ui": "workspace:*",
     "lucide-react": "^0.559.0",
+    "mongoose": "^9.4.1",
     "motion": "^12.23.26",
     "next": "16.0.8",
     "react": "19.2.1",
