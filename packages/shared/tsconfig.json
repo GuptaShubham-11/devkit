@@ -1,0 +1,23 @@
+{
+  "extends": "../../packages/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    // ENV
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    // TYPES
+    "types": ["node"],
+    // RESOLUTION
+    "moduleResolution": "bundler",
+    // BUILD
+    "declaration": true,
+    "declarationMap": true,
+    // STRICT
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
