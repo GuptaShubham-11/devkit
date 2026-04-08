@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import { emailPattern } from "./auth";
-
 export const createTemplateSchema = z.object({
   name: z
     .string("Name is required")
@@ -52,11 +50,21 @@ export const createTemplateSchema = z.object({
 export const updateTemplateSchema = createTemplateSchema.partial();
 
 export const getTemplatesSchema = z.object({
+  userId: z.string("User id is required").optional(),
   limit: z.number("Limit is required").min(1, "Limit is required").max(100),
   offset: z.number("Offset is required").min(0, "Offset is required").max(1000),
   search: z.string("Search is required").optional(),
   sort: z
-    .enum(["slug", "createdAt", "updatedAt", "views", "copies", "downloads"])
+    .enum([
+      "slug",
+      "createdAt",
+      "updatedAt",
+      "views",
+      "copies",
+      "downloads",
+      "popular",
+      "trending",
+    ])
     .default("createdAt"),
   order: z.enum(["asc", "desc"]).default("asc"),
   isPro: z.boolean().default(false),
@@ -76,30 +84,17 @@ export const slugSchema = z
   .max(100);
 
 export const downloadTemplateSchema = z.object({
-  slug: slugSchema,
-  templateId: z.string("Template ID is required").optional(),
-  creditCost: z
-    .number("Credit cost is required")
-    .min(1, "Credit cost is required"),
-  repoUrl: z
-    .string("Repository URL is required")
-    .url("Invalid repository URL")
-    .max(200),
+  templateId: z.string("Template id is required"),
   shortLivedToken: z
     .string("Token is required")
     .min(11, "At least 11 characters")
     .max(11),
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .max(255, "Email is too long")
-    .regex(emailPattern, "Invalid email address")
-    .toLowerCase()
-    .trim(),
+  userId: z.string("User id is required"),
 });
 
 export type CreateTemplateInput = z.infer<typeof createTemplateSchema>;
 export type UpdateTemplateInput = z.infer<typeof updateTemplateSchema>;
 export type GetTemplatesInput = z.infer<typeof getTemplatesSchema>;
+export type DownloadTemplateInput = z.infer<typeof downloadTemplateSchema>;
 
 export type SlugSchema = z.infer<typeof slugSchema>;
