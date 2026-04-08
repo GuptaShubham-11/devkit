@@ -3,12 +3,7 @@ import z from "zod";
 import { emailPattern } from "./auth";
 
 export const createInstallSchema = z.object({
-  email: z
-    .string("Email is required")
-    .email("Invalid email address")
-    .min(1, "Email is required")
-    .regex(emailPattern, "Invalid email address")
-    .max(100, "Email too long"),
+  userId: z.string("User id is required"),
   templateId: z
     .string("Template ID is required")
     .min(1, "Template ID is required")
@@ -26,10 +21,7 @@ export const createInstallSchema = z.object({
 });
 
 export const getInstallsSchema = z.object({
-  email: z
-    .string("Email is required")
-    .regex(emailPattern, "Invalid email address")
-    .optional(),
+  userId: z.string("User id is required").optional(),
   templateId: z.string("Template id is required").optional(),
   limit: z.number("Limit is required").min(1, "Limit is required").max(50),
   offset: z.number("Offset is required").min(0, "Offset is required").max(100),
