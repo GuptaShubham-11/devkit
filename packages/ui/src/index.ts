@@ -51,6 +51,7 @@ export {
 } from "./ui/toggle-group";
 export * from "./ui/toolbar";
 export * from "./ui/tooltip";
+export * from "./ui/input-otp";
 
 // Export utils
 export * from "./utils";
