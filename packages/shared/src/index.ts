@@ -13,4 +13,4 @@ export * from "./types/install";
 export * from "./types/user";
 
 // Export Http
-export * from "./http";
+export * from "./axios-instance";

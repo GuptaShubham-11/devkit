@@ -18,21 +18,43 @@ export async function GET(request: NextRequest) {
       ...queryParams,
       limit: Number(queryParams.limit) || 10,
       offset: Number(queryParams.offset) || 0,
-      order: queryParams.order === "asc" ? 1 : -1,
+      order: queryParams.order,
 
-      isPro: queryParams.isPro === "true",
-      isFeatured: queryParams.isFeatured === "true",
-      isSponsored: queryParams.isSponsored === "true",
-      isRepoTemplate: queryParams.isRepoTemplate === "true",
+      isPro:
+        queryParams.isPro !== undefined
+          ? queryParams.isPro === "true"
+          : undefined,
 
-      isPublished: queryParams.isPublished,
-      isDeleted: queryParams.isDeleted,
+      isFeatured:
+        queryParams.isFeatured !== undefined
+          ? queryParams.isFeatured === "true"
+          : undefined,
+
+      isSponsored:
+        queryParams.isSponsored !== undefined
+          ? queryParams.isSponsored === "true"
+          : undefined,
+
+      isRepoTemplate:
+        queryParams.isRepoTemplate !== undefined
+          ? queryParams.isRepoTemplate === "true"
+          : undefined,
+
+      isPublished:
+        queryParams.isPublished !== undefined
+          ? queryParams.isPublished === "true"
+          : undefined,
+
+      isDeleted:
+        queryParams.isDeleted !== undefined
+          ? queryParams.isDeleted === "true"
+          : undefined,
 
       userId: queryParams.userId,
+      search: queryParams.search,
     };
 
     const validated = getTemplatesSchema.safeParse(parsedQuery);
-
     if (!validated.success) {
       return NextResponse.json(
         { error: validated.error.issues[0].message },
@@ -112,20 +134,20 @@ export async function GET(request: NextRequest) {
         sortObject = { views: -1, createdAt: -1 };
         break;
       case "downloads":
-        sortObject = { downloads: order };
+        sortObject = { downloads: order === "asc" ? 1 : -1 };
         break;
       case "views":
-        sortObject = { views: order };
+        sortObject = { views: order === "asc" ? 1 : -1 };
         break;
       case "createdAt":
-        sortObject = { createdAt: order };
+        sortObject = { createdAt: order === "asc" ? 1 : -1 };
         break;
       case "updatedAt":
-        sortObject = { updatedAt: order };
+        sortObject = { updatedAt: order === "asc" ? 1 : -1 };
         break;
 
       default:
-        sortObject[sort || "createdAt"] = order;
+        sortObject[sort || "createdAt"] = order === "asc" ? 1 : -1;
     }
 
     // Parallel queries

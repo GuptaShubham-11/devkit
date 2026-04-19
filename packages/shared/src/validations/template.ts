@@ -24,8 +24,8 @@ export const createTemplateSchema = z.object({
     .regex(/^\d+\.\d+\.\d+$/, "Invalid version format (e.g. 1.0.0)"),
   installer: z.object({
     name: z.string(),
-    depedencies: z.array(z.string()),
-    devDepedencies: z.array(z.string()),
+    dependencies: z.array(z.string()),
+    devDependencies: z.array(z.string()),
     installCommand: z.string(),
     addDependenciesCommand: z.string(),
     addDevDependenciesCommand: z.string(),
@@ -67,12 +67,12 @@ export const getTemplatesSchema = z.object({
     ])
     .default("createdAt"),
   order: z.enum(["asc", "desc"]).default("asc"),
-  isPro: z.boolean().default(false),
-  isFeatured: z.boolean().default(false),
-  isSponsored: z.boolean().default(false),
+  isPro: z.boolean().optional(),
+  isFeatured: z.boolean().optional(),
+  isSponsored: z.boolean().optional(),
   isPublished: z.boolean().default(true),
   isDeleted: z.boolean().default(false),
-  isRepoTemplate: z.boolean().default(false),
+  isRepoTemplate: z.boolean().optional(),
 });
 
 export const slugSchema = z
