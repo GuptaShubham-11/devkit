@@ -22,14 +22,16 @@ export const createTemplateSchema = z.object({
   version: z
     .string("Version is required")
     .regex(/^\d+\.\d+\.\d+$/, "Invalid version format (e.g. 1.0.0)"),
-  installer: z.object({
-    name: z.string(),
-    dependencies: z.array(z.string()),
-    devDependencies: z.array(z.string()),
-    installCommand: z.string(),
-    addDependenciesCommand: z.string(),
-    addDevDependenciesCommand: z.string(),
-  }),
+  installer: z
+    .object({
+      name: z.string(),
+      dependencies: z.string(),
+      devDependencies: z.string(),
+      installCommand: z.string(),
+      addDependenciesCommand: z.string(),
+      addDevDependenciesCommand: z.string(),
+    })
+    .required(),
   isPro: z.boolean("Pro is required"),
   isRepoTemplate: z.boolean("Repo template is required"),
   isFeatured: z.boolean("Featured is required"),
@@ -40,9 +42,9 @@ export const createTemplateSchema = z.object({
   isDeleted: z.boolean("Deleted is required"),
   sponsoredBy: z
     .object({
-      name: z.string(),
-      url: z.string().url("Invalid URL"),
-      logo: z.string().url("Invalid URL"),
+      name: z.string().optional(),
+      url: z.string().optional(),
+      logo: z.string().optional(),
     })
     .optional(),
 });
@@ -50,7 +52,7 @@ export const createTemplateSchema = z.object({
 export const updateTemplateSchema = createTemplateSchema.partial();
 
 export const getTemplatesSchema = z.object({
-  userId: z.string("User id is required").optional(),
+  userId: z.string().optional(),
   limit: z.number("Limit is required").min(1, "Limit is required").max(100),
   offset: z.number("Offset is required").min(0, "Offset is required").max(1000),
   search: z.string("Search is required").optional(),
