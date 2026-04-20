@@ -16,7 +16,7 @@ export interface Template {
   isFeatured: boolean;
   isSponsored: boolean;
   isDeleted: boolean;
-  sponserdBy: {
+  sponsoredBy: {
     name: string;
     url: string;
     logo: string;
@@ -25,8 +25,8 @@ export interface Template {
   isRepoTemplate: boolean;
   installer: {
     name: string;
-    dependencies: string[];
-    devDependencies: string[];
+    dependencies: string;
+    devDependencies: string;
     installCommand: string;
     addDependenciesCommand: string;
     addDevDependenciesCommand: string;

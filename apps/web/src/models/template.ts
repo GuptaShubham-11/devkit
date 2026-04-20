@@ -60,7 +60,7 @@ const templateSchema = new Schema<ITemplate>(
       type: Boolean,
       default: false,
     },
-    sponserdBy: {
+    sponsoredBy: {
       type: Object,
       default: {},
     },
