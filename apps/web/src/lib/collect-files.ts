@@ -1,5 +1,6 @@
-import { http } from "@repo/shared";
 import type { File, Item } from "@repo/shared";
+
+import { http } from "./http";
 
 const GITHUB_HEADERS = {
   Accept: "application/vnd.github+json",
