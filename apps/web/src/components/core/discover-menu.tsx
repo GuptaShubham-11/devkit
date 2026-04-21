@@ -16,7 +16,7 @@ import { Button, cn, Menu, MenuItem, MenuPopup, MenuTrigger } from "@repo/ui";
 
 import { useActivePath } from "@/hooks/core/use-active-path";
 
-import { CreateTemplate } from "../template/create-template";
+import { CreateTemplateForm } from "../template/create-template-form";
 import { AdminAccess } from "./admin-access";
 
 export const DiscoverMenu = () => {
@@ -83,7 +83,7 @@ export const DiscoverMenu = () => {
         </MenuPopup>
       </Menu>
 
-      <CreateTemplate open={dialogOpen} setOpen={setDialogOpen} />
+      <CreateTemplateForm open={dialogOpen} setOpen={setDialogOpen} />
     </>
   );
 };

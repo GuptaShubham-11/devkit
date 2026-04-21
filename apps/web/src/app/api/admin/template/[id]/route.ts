@@ -16,10 +16,10 @@ type Prams = {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Prams }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
     if (!isValidObjectId(id)) {
       return NextResponse.json(
         { error: "Invalid template ID" },
@@ -121,10 +121,10 @@ export async function PATCH(
 
 export async function DELETE(
   _request: NextRequest,
-  { params }: { params: Prams }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
     if (!isValidObjectId(id)) {
       return NextResponse.json(
         { error: "Invalid template ID" },
