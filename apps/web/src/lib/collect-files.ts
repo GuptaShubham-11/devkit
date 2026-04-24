@@ -2,6 +2,10 @@ import type { File, Item } from "@repo/shared";
 
 import { http } from "./http";
 
+if (!process.env.GITHUB_SECRET_TOKEN) {
+  throw new Error("GITHUB_SECRET_TOKEN must be set at apps/web/.env");
+}
+
 const GITHUB_HEADERS = {
   Accept: "application/vnd.github+json",
   Authorization: `Bearer ${process.env.GITHUB_SECRET_TOKEN}`,
@@ -12,6 +16,8 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
   try {
     return await fn();
   } catch (err) {
+    console.log(err);
+
     if (retries === 0) throw err;
     return withRetry(fn, retries - 1);
   }
@@ -52,7 +58,7 @@ export async function collectFiles(apiUrl: string): Promise<File[]> {
   let rootPath: string | undefined;
 
   async function traverse(url: string): Promise<void> {
-    const res = await withRetry(() =>
+    const res: { status: number; data: Item[] } = await withRetry(() =>
       http.get(url, {
         headers: GITHUB_HEADERS,
         timeout: 15000,
