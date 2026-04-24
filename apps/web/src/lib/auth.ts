@@ -78,6 +78,8 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           email: user.email,
           image: user.profileImage || null,
+          isRole: user.isRole,
+          currentPlan: user.currentPlan,
         };
       },
     }),
@@ -126,9 +128,11 @@ export const authOptions: NextAuthOptions = {
 
           // Attach DB id to session
           (user as any).id = existing._id.toString();
+          (user as any).isRole = existing.isRole;
+          (user as any).currentPlan = existing.currentPlan;
           return true;
         } catch (err) {
-          console.error("Google signIn error:", err);
+          // console.error("Google signIn error:", err);
           return false;
         }
       }
@@ -137,8 +141,11 @@ export const authOptions: NextAuthOptions = {
 
     async jwt({ token, user }) {
       if (user) {
-        token.id = (user as any).id || token.id;
-        token.email = (user as any).email;
+        token.id = user.id || token.id;
+        token.email = user.email;
+        token.image = user.image;
+        token.isRole = (user as any).isRole;
+        token.currentPlan = (user as any).currentPlan;
       }
       return token;
     },
@@ -147,6 +154,9 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
+        session.user.image = token.image as string;
+        session.user.isRole = token.isRole as string;
+        session.user.currentPlan = token.currentPlan as string;
       }
       return session;
     },
