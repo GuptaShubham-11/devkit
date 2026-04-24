@@ -125,6 +125,7 @@ export async function POST(request: NextRequest) {
       {
         allowed: true,
         token,
+        userId: user._id,
         message: "Access Granted",
       },
       { status: 200 }

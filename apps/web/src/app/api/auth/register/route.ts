@@ -8,6 +8,10 @@ import { sendEmail } from "@/lib/email";
 import { generateRandom } from "@/lib/generate-random";
 import { User } from "@/models/user";
 
+if (!process.env.PRIVATE_KEY_LENGTH) {
+  throw new Error("PRIVATE_KEY_LENGTH must be set at apps/web/.env");
+}
+
 export async function POST(request: NextRequest) {
   try {
     const reqData = await request.json();
@@ -37,6 +41,13 @@ export async function POST(request: NextRequest) {
     const otp = generateRandom({ length: 6 });
     const otpExpiry = new Date(Date.now() + 15 * 60 * 1000);
 
+    const privateKey = generateRandom({
+      length: Number(process.env.PRIVATE_KEY_LENGTH),
+      characters: true,
+      symbols: true,
+      numbers: true,
+    });
+
     // If user exists but not verified, update OTP
     if (existing) {
       existing.otp = otp;
@@ -46,6 +57,7 @@ export async function POST(request: NextRequest) {
     } else {
       await User.create({
         email: email.toLowerCase(),
+        privateKey,
         password,
         otp,
         otpExpiry,
@@ -64,7 +76,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    // console.error('Registration error:', err);
+    console.error("Registration error:", error);
     return NextResponse.json(
       {
         error: "Registration failed. Please try again.",
