@@ -16,8 +16,6 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
   try {
     return await fn();
   } catch (err) {
-    console.log(err);
-
     if (retries === 0) throw err;
     return withRetry(fn, retries - 1);
   }
