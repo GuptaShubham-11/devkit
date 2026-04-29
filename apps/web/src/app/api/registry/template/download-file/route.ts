@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       userId: user._id,
       amount: template.creditCost,
       type: "debit",
-      reason: `downloaded ${template.slug} template at ${new Date().toISOString()}`,
+      reason: `Install`,
       templateId,
     });
 

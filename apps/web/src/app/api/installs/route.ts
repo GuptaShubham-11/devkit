@@ -88,14 +88,44 @@ export async function GET(request: NextRequest) {
         sortObject.createdAt = order === "asc" ? 1 : -1;
     }
 
-    const [installs, total] = await Promise.all([
-      Install.find(conditions)
-        .sort(sortObject)
-        .skip(offset)
-        .limit(limit)
-        .lean(),
+    const total = await Install.countDocuments(conditions);
 
-      Install.countDocuments(conditions),
+    const installs = await Install.aggregate([
+      { $match: conditions },
+      { $sort: sortObject },
+      { $skip: offset },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "templates",
+          localField: "templateId",
+          foreignField: "_id",
+          as: "template",
+        },
+      },
+
+      {
+        $unwind: {
+          path: "$template",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      {
+        $project: {
+          _id: 1,
+          status: 1,
+          duration: 1,
+          installedAt: 1,
+          createdAt: 1,
+          templateId: 1,
+          failedReason: 1,
+          ipAddress: 1,
+
+          templateName: "$template.name",
+          templateSlug: "$template.slug",
+        },
+      },
     ]);
 
     return NextResponse.json(
