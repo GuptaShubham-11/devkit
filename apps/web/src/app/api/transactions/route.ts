@@ -1,13 +1,11 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-import { isValidObjectId } from "mongoose";
-
-import { getInstallsSchema } from "@repo/shared";
+import { getTransactionsSchema } from "@repo/shared";
 
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
-import { Install } from "@/models/install";
+import { Transaction } from "@/models/transaction";
 
 export async function GET(request: NextRequest) {
   try {
@@ -30,7 +28,7 @@ export async function GET(request: NextRequest) {
       order: queryParams.order === "asc" ? "asc" : "desc",
     };
 
-    const validated = getInstallsSchema.safeParse(parsedQuery);
+    const validated = getTransactionsSchema.safeParse(parsedQuery);
 
     if (!validated.success) {
       return NextResponse.json(
@@ -39,8 +37,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { templateId, userId, limit, offset, search, sort, order } =
-      validated.data;
+    const { userId, limit, offset, search, sort, order } = validated.data;
 
     await connectToDatabase();
 
@@ -58,16 +55,6 @@ export async function GET(request: NextRequest) {
       userId: sessionUserId, // enforce user scope
     };
 
-    if (templateId) {
-      if (!isValidObjectId(templateId)) {
-        return NextResponse.json(
-          { error: "Invalid template ID" },
-          { status: 400 }
-        );
-      }
-      conditions.templateId = templateId;
-    }
-
     if (search) {
       conditions.failedReason = {
         $regex: search,
@@ -78,31 +65,31 @@ export async function GET(request: NextRequest) {
     const sortObject: any = {};
 
     switch (sort) {
-      case "duration":
+      case "amount":
         sortObject.duration = order === "asc" ? 1 : -1;
         break;
-      case "installedAt":
-        sortObject.installedAt = order === "asc" ? 1 : -1;
+      case "type":
+        sortObject.transactionedAt = order === "asc" ? 1 : -1;
         break;
       case "createdAt":
       default:
         sortObject.createdAt = order === "asc" ? 1 : -1;
     }
 
-    const [installs, total] = await Promise.all([
-      Install.find(conditions)
+    const [transactions, total] = await Promise.all([
+      Transaction.find(conditions)
         .sort(sortObject)
         .skip(offset)
         .limit(limit)
         .lean(),
 
-      Install.countDocuments(conditions),
+      Transaction.countDocuments(conditions),
     ]);
 
     return NextResponse.json(
       {
-        message: "Installs fetched successfully",
-        installs,
+        message: "Transactions fetched successfully",
+        transactions,
         pagination: {
           total,
           limit,
@@ -117,7 +104,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       {
-        error: "Error fetching installs",
+        error: "Error fetching transactions",
         details:
           process.env.NODE_ENV === "development"
             ? (error as Error).message
