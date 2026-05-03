@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "ik.imagekit.io/l2zuz3xzb/devkit",
+        hostname: "ik.imagekit.io",
       },
     ],
   },
