@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 
+import { useRouter } from "next/navigation";
+
 import {
   Download,
-  Edit3Icon,
+  Edit,
+  ExternalLink,
+  Eye,
   MoreVerticalIcon,
   ScanEyeIcon,
-  View,
 } from "lucide-react";
 
 import { Template } from "@repo/shared";
@@ -35,6 +38,7 @@ import { ViewTemplate } from "./view-template";
 export const TemplateCard = ({ template }: { template: Template }) => {
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
+  const router = useRouter();
 
   const handleOpen = () => setOpen(true);
   const handleUpdateOpen = () => setUpdateOpen(true);
@@ -56,7 +60,7 @@ export const TemplateCard = ({ template }: { template: Template }) => {
               )}
 
               {(template.isPro || template.creditCost > 0) && (
-                <span className="text-brand-primary">
+                <span className="text-accent-warning">
                   c{template.creditCost}
                 </span>
               )}
@@ -71,17 +75,19 @@ export const TemplateCard = ({ template }: { template: Template }) => {
             <MenuTrigger render={<Button variant="ghost" size={"icon-xs"} />}>
               <MoreVerticalIcon />
             </MenuTrigger>
-            <MenuPopup className={"bg-surface-primary rounded-xs"}>
-              <MenuGroup className={"text-text-muted"}>
+            <MenuPopup className={"bg-surface-primary"}>
+              <MenuGroup className={"text-text-secondary"}>
                 <MenuGroupLabel>Actions</MenuGroupLabel>
                 <MenuItem onClick={handleOpen} className="cursor-pointer">
-                  View
+                  <Eye className="text-text-muted" />
+                  Open
                 </MenuItem>
                 <AdminAccess>
                   <MenuItem
                     onClick={handleUpdateOpen}
                     className="cursor-pointer"
                   >
+                    <Edit className="text-text-muted" />
                     Update
                   </MenuItem>
                 </AdminAccess>
@@ -90,17 +96,17 @@ export const TemplateCard = ({ template }: { template: Template }) => {
           </Menu>
         </CardHeader>
 
-        <CardContent className="-mt-4 grid gap-4">
-          <p className="text-text-muted mt-1 line-clamp-2 text-sm">
+        <CardContent className="-mt-2 mb-6 grid gap-4">
+          <p className="text-text-muted mt-1 line-clamp-2 text-sm font-light">
             {template.description}
           </p>
 
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 capitalize">
             {template.stack.slice(0, 3).map((tech) => (
               <Badge
                 key={tech}
                 variant="outline"
-                className="bg-surface-secondary text-text-secondary px-2 py-0.5 text-xs font-light capitalize"
+                className="bg-surface-secondary text-text-secondary px-2 py-0.5 font-thin"
               >
                 {tech}
               </Badge>
@@ -109,7 +115,7 @@ export const TemplateCard = ({ template }: { template: Template }) => {
               <Badge
                 key={tag}
                 variant="outline"
-                className="bg-surface-secondary text-text-secondary px-2 py-0.5 text-xs font-light capitalize"
+                className="bg-surface-secondary text-text-secondary px-2 py-0.5 font-thin"
               >
                 {tag}
               </Badge>
@@ -118,7 +124,7 @@ export const TemplateCard = ({ template }: { template: Template }) => {
               <Badge
                 key={"more"}
                 variant="outline"
-                className="bg-surface-secondary text-text-secondary px-2 py-0.5 text-xs font-light capitalize"
+                className="bg-surface-secondary text-text-secondary px-2 py-0.5 font-thin"
               >
                 +{template.stack.length - 3 + (template.tags.length - 3)}
               </Badge>
@@ -153,11 +159,19 @@ export const TemplateCard = ({ template }: { template: Template }) => {
         </CardFooter>
 
         <div className="bg-surface-secondary absolute inset-x-0 bottom-0 flex translate-y-[110%] gap-2 rounded-b-2xl border-t p-3 opacity-0 transition-all duration-600 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover:translate-y-0 group-hover:opacity-100">
-          <Button size="sm" className="flex-1">
+          <Button onClick={handleOpen} size="sm" className="flex-1">
             Use Template
           </Button>
-          <Button size="sm" variant="outline" onClick={handleOpen}>
-            View
+          <Button
+            disabled={
+              !template.codeUrl || template.isPro || !template.withoutLogin
+            }
+            onClick={() => router.push(template.codeUrl ?? "")}
+            size="sm"
+            variant="outline"
+          >
+            <ExternalLink />
+            Link
           </Button>
         </div>
       </Card>

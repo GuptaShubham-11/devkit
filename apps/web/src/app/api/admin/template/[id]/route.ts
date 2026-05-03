@@ -70,10 +70,15 @@ export async function PATCH(
       isRepoTemplate,
       installer,
       creditCost,
-      folderStructureImage,
+      imageUrl,
+      codeUrl,
+      folderStructure,
+      withoutLogin,
       videoUrl,
       sponsoredBy,
       isDeleted,
+      liveUrl,
+      features,
     } = validatedData.data;
 
     const updatedTemplate = await Template.findOneAndUpdate(
@@ -95,8 +100,13 @@ export async function PATCH(
         isRepoTemplate,
         installer,
         creditCost,
-        folderStructureImage,
+        imageUrl,
+        codeUrl,
+        folderStructure,
+        withoutLogin,
         videoUrl,
+        liveUrl,
+        features,
       },
       {
         new: true,

@@ -28,6 +28,7 @@ import {
 } from "@repo/ui";
 
 import { useUpdateTemplate } from "@/hooks";
+import { mapRHFErrorsToFormErrors } from "@/lib/form-error";
 
 import { FileUpload } from "../core/file-upload";
 
@@ -52,19 +53,15 @@ export const UpdateTemplateForm = ({
     register,
     control,
     setValue,
-    getValues,
     watch,
-    formState: { isValid, isSubmitting },
+    formState: { errors },
     handleSubmit,
     reset,
   } = form;
 
   const { update, loading } = useUpdateTemplate();
 
-  const watchName = watch("name");
   const watchSlug = watch("slug");
-  const watchStack = watch("stack") ?? [];
-  const watchTags = watch("tags") ?? [];
   const isSponsored = watch("isSponsored");
 
   useEffect(() => {
@@ -74,57 +71,20 @@ export const UpdateTemplateForm = ({
   }, [template, open, reset]);
 
   useEffect(() => {
-    if (!watchSlug && watchName?.trim()) {
-      const nextSlug = watchName
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-");
-
-      setValue("slug", nextSlug, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-    }
-  }, [watchName, watchSlug, setValue]);
-
-  useEffect(() => {
     if (!isSponsored) {
-      setValue("sponsoredBy", {
-        name: "",
-        url: "",
-        logo: "",
-      });
+      setValue(
+        "sponsoredBy",
+        { name: "", url: "", logo: "" },
+        { shouldDirty: true, shouldValidate: true }
+      );
     }
   }, [isSponsored, setValue]);
 
-  const addItem = (field: "stack" | "tags", rawValue: string) => {
-    const value = rawValue.trim().toLowerCase();
-    if (!value) return;
-
-    const current = getValues(field) ?? [];
-    if (current.includes(value)) return;
-
-    setValue(field, [...current, value], {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  };
-
-  const removeItem = (field: "stack" | "tags", item: string) => {
-    const current = getValues(field) ?? [];
-    setValue(
-      field,
-      current.filter((v) => v !== item),
-      {
-        shouldDirty: true,
-        shouldValidate: true,
-      }
-    );
-  };
-
   const onSubmit = async (data: CreateTemplateInput) => {
+    console.log(data);
+
+    if (loading) return;
+
     const response = await update(template._id, data);
 
     if (response) {
@@ -134,15 +94,15 @@ export const UpdateTemplateForm = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogPopup className="font-inter sm:max-w-sm">
+      <DialogPopup className="font-inter h-full sm:max-w-sm">
         <DialogHeader className="gap-0 pb-0">
           <DialogTitle className="text-xl">Update Template</DialogTitle>
           <DialogDescription>Update your existing template</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="contents">
-          <ScrollArea className="h-80">
-            <DialogPanel className="grid gap-4">
+        <ScrollArea className="h-80">
+          <DialogPanel className="grid gap-4">
+            <Form errors={mapRHFErrorsToFormErrors(errors)}>
               <Field name="name">
                 <FieldLabel>Name</FieldLabel>
                 <Input {...register("name")} />
@@ -151,85 +111,13 @@ export const UpdateTemplateForm = ({
 
               <Field name="slug">
                 <FieldLabel>Slug</FieldLabel>
-                <Input
-                  placeholder="nextjs-saas-starter"
-                  {...register("slug")}
-                />
+                <Input {...register("slug")} />
                 <FieldError />
               </Field>
 
               <Field name="description">
                 <FieldLabel>Description</FieldLabel>
-                <Textarea
-                  placeholder="Next.js SaaS Starter for your business"
-                  {...register("description")}
-                />
-                <FieldError />
-              </Field>
-
-              <div className="flex w-full items-center gap-2">
-                <Field name="stack" className="flex-1">
-                  <FieldLabel>Stack</FieldLabel>
-                  <Input
-                    placeholder="typescript"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        const el = e.currentTarget;
-                        addItem("stack", el.value);
-                        el.value = "";
-                      }
-                    }}
-                  />
-                  <FieldError />
-                </Field>
-
-                <Field name="tags" className="flex-1">
-                  <FieldLabel>Tag</FieldLabel>
-                  <Input
-                    placeholder="saas"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        const el = e.currentTarget;
-                        addItem("tags", el.value);
-                        el.value = "";
-                      }
-                    }}
-                  />
-                  <FieldError />
-                </Field>
-              </div>
-
-              <div className="flex w-full flex-wrap gap-1">
-                {watchStack.map((item, index) => (
-                  <Badge
-                    key={`stack-${item}-${index}`}
-                    onClick={() => removeItem("stack", item)}
-                    variant="outline"
-                    className="bg-surface-secondary text-text-secondary cursor-pointer px-2 py-0.5 text-xs font-light capitalize"
-                  >
-                    {item}
-                  </Badge>
-                ))}
-                {watchTags.map((item, index) => (
-                  <Badge
-                    key={`tag-${item}-${index}`}
-                    onClick={() => removeItem("tags", item)}
-                    variant="outline"
-                    className="bg-surface-secondary text-text-secondary cursor-pointer px-2 py-0.5 text-xs font-light capitalize"
-                  >
-                    {item}
-                  </Badge>
-                ))}
-              </div>
-
-              <Field name="repoUrl">
-                <FieldLabel>Repo URL</FieldLabel>
-                <Input
-                  placeholder="https://github.com/nextjs-saas-starter"
-                  {...register("repoUrl")}
-                />
+                <Textarea {...register("description")} />
                 <FieldError />
               </Field>
 
@@ -253,6 +141,137 @@ export const UpdateTemplateForm = ({
                   <FieldError />
                 </Field>
               </div>
+
+              {/* STACK */}
+              <Controller
+                control={control}
+                name="stack"
+                render={({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Input
+                      placeholder="Add stack (press enter)"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          const value = e.currentTarget.value
+                            .trim()
+                            .toLowerCase();
+                          if (!value) return;
+
+                          if (!field.value?.includes(value)) {
+                            field.onChange([...field.value, value]);
+                          }
+
+                          e.currentTarget.value = "";
+                        }
+                      }}
+                    />
+
+                    <div className="flex flex-wrap gap-1">
+                      {field.value?.map((item: string, i: number) => (
+                        <Badge
+                          key={i}
+                          onClick={() =>
+                            field.onChange(
+                              field.value.filter((v: string) => v !== item)
+                            )
+                          }
+                          className="cursor-pointer"
+                        >
+                          {item}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              />
+
+              {/* TAGS */}
+              <Controller
+                control={control}
+                name="tags"
+                render={({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Input
+                      placeholder="Add tag (press enter)"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          const value = e.currentTarget.value
+                            .trim()
+                            .toLowerCase();
+                          if (!value) return;
+
+                          if (!field.value?.includes(value)) {
+                            field.onChange([...field.value, value]);
+                          }
+
+                          e.currentTarget.value = "";
+                        }
+                      }}
+                    />
+
+                    <div className="flex flex-wrap gap-1">
+                      {field.value?.map((item: string, i: number) => (
+                        <Badge
+                          key={i}
+                          onClick={() =>
+                            field.onChange(
+                              field.value.filter((v: string) => v !== item)
+                            )
+                          }
+                          className="cursor-pointer"
+                        >
+                          {item}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              />
+
+              <Controller
+                control={control}
+                name="features"
+                render={({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Input
+                      placeholder="Add feature (press enter)"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          const value = e.currentTarget.value
+                            .trim()
+                            .toLowerCase();
+                          if (!value) return;
+
+                          if (!field.value?.includes(value)) {
+                            field.onChange([...field.value, value]);
+                          }
+
+                          e.currentTarget.value = "";
+                        }
+                      }}
+                    />
+
+                    <div className="flex flex-wrap gap-1">
+                      {field.value?.map((item: string, i: number) => (
+                        <Badge
+                          key={i}
+                          onClick={() =>
+                            field.onChange(
+                              field.value.filter((v: string) => v !== item)
+                            )
+                          }
+                          className="cursor-pointer"
+                        >
+                          {item}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              />
 
               <div className="grid w-full grid-cols-2 gap-2">
                 <Field
@@ -332,6 +351,25 @@ export const UpdateTemplateForm = ({
 
                 <Field
                   className="bg-surface-secondary flex-row items-center justify-between gap-2 rounded-xs border p-1.5"
+                  name="withoutLogin"
+                >
+                  <FieldLabel>Without Login</FieldLabel>
+                  <Controller
+                    control={control}
+                    name="withoutLogin"
+                    render={({ field }) => (
+                      <Switch
+                        className="data-checked:bg-text-muted"
+                        checked={!!field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    )}
+                  />
+                  <FieldError />
+                </Field>
+
+                <Field
+                  className="bg-surface-secondary flex-row items-center justify-between gap-2 rounded-xs border p-1.5"
                   name="isSponsored"
                 >
                   <FieldLabel>Sponsored</FieldLabel>
@@ -400,6 +438,24 @@ export const UpdateTemplateForm = ({
                 </div>
               )}
 
+              <Field name="repoUrl">
+                <FieldLabel>Repo URL</FieldLabel>
+                <Input {...register("repoUrl")} />
+                <FieldError />
+              </Field>
+
+              <Field name="liveUrl">
+                <FieldLabel>Live URL</FieldLabel>
+                <Input {...register("liveUrl")} />
+                <FieldError />
+              </Field>
+
+              <Field name="codeUrl">
+                <FieldLabel>Code URL</FieldLabel>
+                <Input {...register("codeUrl")} />
+                <FieldError />
+              </Field>
+
               <div className="grid gap-4">
                 <Field name="installer.name">
                   <FieldLabel>Installer Name</FieldLabel>
@@ -453,39 +509,60 @@ export const UpdateTemplateForm = ({
                 </Field>
               </div>
 
+              <Field name="folderStructure">
+                <FieldLabel>Folder Structure</FieldLabel>
+                <Textarea placeholder="" {...register("folderStructure")} />
+                <FieldError />
+              </Field>
+
+              {/* FILE UPLOAD FIX (important) */}
               <Field name="videoUrl">
-                <FieldLabel>Video</FieldLabel>
-                <FileUpload
-                  type="template-video"
-                  slug={watchSlug}
-                  onSuccess={(res) => {
-                    setValue("videoUrl", res.url, {
-                      shouldDirty: true,
-                      shouldValidate: true,
-                    });
-                  }}
+                <FieldLabel>Template Video</FieldLabel>
+                <Controller
+                  control={control}
+                  name="videoUrl"
+                  render={({ field }) => (
+                    <FileUpload
+                      type="template-video"
+                      slug={watchSlug}
+                      onSuccess={(res) => field.onChange(res.url)}
+                    />
+                  )}
                 />
                 <FieldError />
               </Field>
-            </DialogPanel>
-          </ScrollArea>
 
-          <DialogFooter>
-            <Button
-              disabled={loading || isSubmitting || !isValid}
-              type="submit"
-            >
-              {loading ? (
-                <>
-                  <Spinner />
-                  Updating...
-                </>
-              ) : (
-                "Update Template"
-              )}
-            </Button>
-          </DialogFooter>
-        </form>
+              <Field name="imageUrl">
+                <FieldLabel>Template Image</FieldLabel>
+                <Controller
+                  control={control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FileUpload
+                      type="template-image"
+                      slug={watchSlug}
+                      onSuccess={(res) => field.onChange(res.url)}
+                    />
+                  )}
+                />
+                <FieldError />
+              </Field>
+            </Form>
+          </DialogPanel>
+        </ScrollArea>
+
+        <DialogFooter>
+          <Button disabled={loading} onClick={() => handleSubmit(onSubmit)()}>
+            {loading ? (
+              <>
+                <Spinner />
+                Updating...
+              </>
+            ) : (
+              "Update Template"
+            )}
+          </Button>
+        </DialogFooter>
       </DialogPopup>
     </Dialog>
   );

@@ -79,6 +79,9 @@ export async function POST(request: Request) {
     user.creditBalance -= template.creditCost;
     await user.save();
 
+    template.downloads += 1;
+    await template.save();
+
     await Transaction.create({
       userId: user._id,
       amount: template.creditCost,

@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
     const reqData = await request.json();
     const validatedData = createTemplateSchema.safeParse(reqData);
     if (!validatedData.success) {
+      console.log(validatedData.error);
       return NextResponse.json(
         { error: validatedData.error.issues[0].message },
         { status: 400 }
@@ -54,8 +55,13 @@ export async function POST(request: NextRequest) {
       sponsoredBy,
       isDeleted = false,
       installer,
-      folderStructureImage,
+      imageUrl,
+      codeUrl,
+      withoutLogin = false,
+      folderStructure,
       videoUrl,
+      liveUrl,
+      features,
       isRepoTemplate = false,
     } = validatedData.data;
 
@@ -83,9 +89,14 @@ export async function POST(request: NextRequest) {
       sponsoredBy,
       isDeleted,
       installer,
-      folderStructureImage,
+      imageUrl,
+      codeUrl,
+      withoutLogin,
+      folderStructure,
       videoUrl,
       isRepoTemplate,
+      liveUrl,
+      features,
     });
 
     return NextResponse.json(
@@ -96,7 +107,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    // console.error('Error creating template:', error);
+    console.error("Error creating template:", error);
     return NextResponse.json(
       {
         error: "Failed to create template",

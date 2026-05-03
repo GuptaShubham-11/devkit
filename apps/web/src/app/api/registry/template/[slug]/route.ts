@@ -24,28 +24,18 @@ export async function GET(
 
     const template = await Template.findOne({
       slug: validatedData.data,
-    }).lean();
+    });
 
-    if (!template) {
+    if (!template || template.isDeleted || !template.isPublished) {
       return NextResponse.json(
         { error: "Template does not exist!" },
         { status: 404 }
       );
     }
 
-    if (!template.isPublished) {
-      return NextResponse.json(
-        { error: "Template is not published!" },
-        { status: 404 }
-      );
-    }
-
-    if (template.isDeleted) {
-      return NextResponse.json(
-        { error: "Template is deleted!" },
-        { status: 404 }
-      );
-    }
+    template.views += 1;
+    template.copies += 1;
+    await template.save();
 
     return NextResponse.json(
       {
@@ -55,7 +45,7 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
-    // console.error('Error fetching template:', error);
+    console.error("Error fetching template:", error);
     return NextResponse.json(
       {
         error: "Failed to fetch template",
