@@ -133,7 +133,7 @@ export function TemplateSearchBar({
                 <Kbd>
                   <CornerDownLeftIcon />
                 </Kbd>
-                <span>Open</span>
+                <span>Search</span>
               </div>
             </div>
 

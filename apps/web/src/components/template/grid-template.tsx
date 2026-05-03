@@ -1,7 +1,6 @@
 "use client";
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { shallow } from "zustand/shallow";
 
 import { Template } from "@repo/shared";
 
@@ -13,6 +12,8 @@ import { Container } from "../core/container";
 import { PaginationTemplate } from "./pagination-template";
 import { TemplateCard } from "./template-card";
 import { TemplateCardSkeleton } from "./template-card-skeleton";
+
+// import { templateData } from "@/mock-data/template-data";  // mock templates data
 
 export const GridTemplate = () => {
   const query = useTemplateQuery();
@@ -38,26 +39,36 @@ export const GridTemplate = () => {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:px-6 md:grid-cols-3">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <TemplateCardSkeleton key={i} />
-        ))}
+      <div className="grid gap-4">
+        <h3 className="text-text-secondary relative text-2xl font-semibold">
+          <div className="bg-accent-primary absolute -left-2 -z-10 h-8 w-35 -rotate-1 opacity-70" />
+          Templates
+        </h3>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:px-6 md:grid-cols-3">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <TemplateCardSkeleton key={i} />
+          ))}
+        </div>
       </div>
     );
   }
 
   return (
-    <Container className="mb-20 grid justify-center gap-6">
-      <PaginationTemplate pagination={pagination} />
-
-      <div
-        className={`grid grid-cols-1 gap-4 transition-opacity sm:grid-cols-2 sm:px-6 md:grid-cols-3 ${
-          isFetching ? "opacity-60" : "opacity-100"
-        }`}
-      >
-        {templates.map((template: Template) => (
-          <TemplateCard key={template._id} template={template} />
-        ))}
+    <Container className="mb-10 grid justify-center gap-6 sm:mb-20">
+      <div className="grid gap-4">
+        <h3 className="text-text-secondary relative text-2xl font-semibold">
+          <div className="bg-accent-primary absolute -left-2 -z-10 h-8 w-35 -rotate-1 opacity-70" />
+          Templates
+        </h3>
+        <div
+          className={`grid grid-cols-1 gap-4 transition-opacity sm:grid-cols-2 sm:px-6 md:grid-cols-3 ${
+            isFetching ? "pointer-events-none opacity-60" : ""
+          }`}
+        >
+          {templates.map((template: Template) => (
+            <TemplateCard key={template._id} template={template} />
+          ))}
+        </div>
       </div>
 
       <PaginationTemplate pagination={pagination} />

@@ -2,7 +2,8 @@ import mongoose, { model, models, Schema } from "mongoose";
 
 import { Template as SharedTemplate } from "@repo/shared";
 
-export interface ITemplate extends Document, Omit<SharedTemplate, "_id"> {
+export interface ITemplate
+  extends Omit<SharedTemplate, "_id">, mongoose.Document {
   _id: mongoose.Types.ObjectId;
 }
 
@@ -15,6 +16,8 @@ const templateSchema = new Schema<ITemplate>(
     slug: {
       type: String,
       required: true,
+      unique: true,
+      index: true,
     },
     description: {
       type: String,
@@ -24,17 +27,35 @@ const templateSchema = new Schema<ITemplate>(
       type: [String],
       required: true,
     },
-    repoUrl: {
-      type: String,
-      required: true,
-    },
     tags: {
       type: [String],
+      required: true,
+    },
+    features: {
+      type: [String],
+      required: true,
+    },
+    repoUrl: {
+      type: String,
       required: true,
     },
     version: {
       type: String,
       required: true,
+    },
+    codeUrl: {
+      type: String,
+    },
+    liveUrl: {
+      type: String,
+    },
+    folderStructure: {
+      type: String,
+      required: true,
+    },
+    withoutLogin: {
+      type: Boolean,
+      default: false,
     },
     isPro: {
       type: Boolean,
@@ -44,7 +65,7 @@ const templateSchema = new Schema<ITemplate>(
       type: Number,
       default: 0,
     },
-    isRepoTemplate: {
+    isPublished: {
       type: Boolean,
       default: false,
     },
@@ -61,15 +82,52 @@ const templateSchema = new Schema<ITemplate>(
       default: false,
     },
     sponsoredBy: {
-      type: Object,
-      default: {},
+      name: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+      logo: {
+        type: String,
+      },
+    },
+    isRepoTemplate: {
+      type: Boolean,
+      default: false,
+    },
+    installer: {
+      name: {
+        type: String,
+        required: true,
+      },
+      dependencies: {
+        type: String,
+        default: "",
+      },
+      devDependencies: {
+        type: String,
+        default: "",
+      },
+      installCommand: {
+        type: String,
+        required: true,
+      },
+      addDependenciesCommand: {
+        type: String,
+        required: true,
+      },
+      addDevDependenciesCommand: {
+        type: String,
+        required: true,
+      },
+    },
+    imageUrl: {
+      type: String,
+      required: true,
     },
     videoUrl: {
       type: String,
-    },
-    folderStructureImage: {
-      type: String,
-      required: true,
     },
     views: {
       type: Number,
@@ -83,17 +141,9 @@ const templateSchema = new Schema<ITemplate>(
       type: Number,
       default: 0,
     },
-    isPublished: {
-      type: Boolean,
-      default: false,
-    },
-    installer: {
-      type: Object,
-      default: {},
-    },
   },
   { timestamps: true }
 );
 
 export const Template =
-  models?.Template || model<ITemplate>("Template", templateSchema);
+  models.Template || model<ITemplate>("Template", templateSchema);

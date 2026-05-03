@@ -16,7 +16,7 @@ export const TemplateCardSkeleton = () => {
         <Skeleton className="size-6 rounded-xl" />
       </CardHeader>
 
-      <CardContent className="grid gap-4">
+      <CardContent className="mb-4 grid gap-4">
         <div className="space-y-2">
           <Skeleton className="h-3 w-full rounded-[6px]" />
           <Skeleton className="h-3 w-5/6 rounded-[6px]" />
