@@ -1,13 +1,23 @@
 export interface Template {
   _id: string;
+
   name: string;
   slug: string;
   description: string;
 
   stack: string[];
   tags: string[];
+  features: string[];
+
   repoUrl: string;
   version: string;
+
+  codeUrl?: string;
+  liveUrl?: string;
+
+  folderStructure: string;
+
+  withoutLogin: boolean;
 
   isPro: boolean;
   creditCost: number;
@@ -16,13 +26,15 @@ export interface Template {
   isFeatured: boolean;
   isSponsored: boolean;
   isDeleted: boolean;
-  sponsoredBy: {
-    name: string;
-    url: string;
-    logo: string;
+
+  sponsoredBy?: {
+    name?: string;
+    url?: string;
+    logo?: string;
   };
 
   isRepoTemplate: boolean;
+
   installer: {
     name: string;
     dependencies: string;
@@ -32,8 +44,8 @@ export interface Template {
     addDevDependenciesCommand: string;
   };
 
-  folderStructureImage: string;
-  videoUrl: string;
+  imageUrl: string;
+  videoUrl?: string;
 
   views: number;
   copies: number;
