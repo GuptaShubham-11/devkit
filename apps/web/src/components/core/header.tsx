@@ -34,7 +34,6 @@ export const Header = () => {
                 className="text-text-muted"
               >
                 <SearchIcon aria-hidden="true" className="text-text-primary" />
-                Search
                 <KbdGroup className="-me-1">
                   <Kbd>&#8984;</Kbd>
                   <Kbd>J</Kbd>

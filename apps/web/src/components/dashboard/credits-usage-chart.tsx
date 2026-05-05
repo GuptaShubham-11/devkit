@@ -59,7 +59,7 @@ export function CreditUsageChart({
           tickLine={false}
           width={30}
           fontSize={11}
-          tickMargin={16}
+          tickMargin={10}
           tickCount={4}
           domain={["dataMin", "dataMax"]}
           stroke="var(--color-text-muted)"

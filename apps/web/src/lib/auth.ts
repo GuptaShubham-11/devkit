@@ -42,6 +42,11 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid email or password");
         }
 
+        // Prevent login if account deleted
+        if (user.isDeleted) {
+          throw new Error("Account does not exist! Register first.");
+        }
+
         if (!user.isVerified) {
           throw new Error("Please verify your email first! Register First.");
         }
@@ -118,6 +123,11 @@ export const authOptions: NextAuthOptions = {
               },
             });
           } else if (!existing.oAuth?.google) {
+            // Prevent login if account deleted
+            if (existing.isDeleted) {
+              throw new Error("Account does not exist! Register first.");
+            }
+
             existing.oAuth = {
               ...existing.oAuth,
               google: { id: user.id, email },

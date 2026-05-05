@@ -31,14 +31,14 @@ export const DiscoverMenu = () => {
         <MenuTrigger render={<Button variant="outline" size={"icon"} />}>
           <MenuIcon />
         </MenuTrigger>
-        <MenuPopup className={"font-inter"}>
+        <MenuPopup className={"font-inter rounded-2xl p-1"}>
           <MenuItem
             onClick={() => router.push("/dashboard")}
             data-active={isActive("/dashboard")}
             className={cn(
               isActive("/dashboard") &&
                 !dialogOpen &&
-                "bg-accent-primary/70 dark:hover:bg-accent-primary/80"
+                "bg-accent-primary/70 dark:hover:bg-accent-primary/80 font-medium"
             )}
           >
             <LayoutDashboardIcon />
@@ -50,7 +50,7 @@ export const DiscoverMenu = () => {
             className={cn(
               isActive("/templates") &&
                 !dialogOpen &&
-                "bg-accent-primary/70 dark:hover:bg-accent-primary/80"
+                "bg-accent-primary/70 dark:hover:bg-accent-primary/80 font-medium"
             )}
           >
             <LayersIcon />
@@ -63,7 +63,7 @@ export const DiscoverMenu = () => {
               className={cn(
                 isActive("/admin/a-d") &&
                   !dialogOpen &&
-                  "bg-accent-primary/70 dark:hover:bg-accent-primary/80"
+                  "bg-accent-primary/70 dark:hover:bg-accent-primary/80 font-medium"
               )}
             >
               <ShieldCheck />
@@ -73,11 +73,11 @@ export const DiscoverMenu = () => {
               onClick={() => setDialogOpen(true)}
               className={cn(
                 dialogOpen &&
-                  "bg-accent-primary/70 dark:hover:bg-accent-primary/80"
+                  "bg-accent-primary/70 dark:hover:bg-accent-primary/80 font-medium"
               )}
             >
               <PlusIcon />
-              Create Template
+              Create
             </MenuItem>
           </AdminAccess>
         </MenuPopup>

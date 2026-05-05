@@ -29,6 +29,17 @@ export async function POST(request: NextRequest) {
 
     const existing = await User.findOne({ email: email.toLowerCase() });
 
+    // If user deleted, stop
+    if (existing?.isDeleted) {
+      return NextResponse.json(
+        {
+          error:
+            "Account with this email deleted! Register with another email.",
+        },
+        { status: 409 }
+      );
+    }
+
     // If verified user exists, stop
     if (existing?.isVerified) {
       return NextResponse.json(
