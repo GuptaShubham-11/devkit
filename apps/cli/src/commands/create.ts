@@ -40,14 +40,11 @@ export async function createProject(templateSlug: string, projectName: string) {
     showTemplateInfo(template);
 
     //  Step 4: Confirm (only for paid templates)
-    if (template.isPro && template.creditCost > 0) {
+    if (template.isPro || template.creditCost > 0) {
       await confirmStart(template.creditCost);
     }
 
-    // Step 5: Auth (only for paid templates)
-    if (template.isPro) {
-      authResult = await handleAuth(template._id);
-    }
+    authResult = await handleAuth(template._id);
 
     // Step 6: Download
     await downloadTemplate(
