@@ -3,6 +3,8 @@ import mongoose, { model, models, Schema } from "mongoose";
 
 import { User as SharedUser } from "@repo/shared";
 
+import { secretVariables } from "@/lib/secret-variables";
+
 export interface IUser extends Document, Omit<SharedUser, "_id"> {
   _id: mongoose.Types.ObjectId;
 }
@@ -94,12 +96,9 @@ const userSchema = new Schema<IUser>(
 );
 
 userSchema.pre("save", async function () {
+  const { SALT_ROUNDS } = secretVariables();
   if (this.isModified("password")) {
-    const ROUNDS = Number(process.env.SALT_ROUNDS);
-    if (!ROUNDS) {
-      throw new Error("SALT_ROUNDS must be set!");
-    }
-    this.password = await bcrypt.hash(this.password, ROUNDS);
+    this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
   }
 });
 

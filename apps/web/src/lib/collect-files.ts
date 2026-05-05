@@ -1,14 +1,13 @@
 import type { File, Item } from "@repo/shared";
 
 import { http } from "./http";
+import { secretVariables } from "./secret-variables";
 
-if (!process.env.GITHUB_SECRET_TOKEN) {
-  throw new Error("GITHUB_SECRET_TOKEN must be set at apps/web/.env");
-}
+const { GITHUB_SECRET_TOKEN } = secretVariables();
 
 const GITHUB_HEADERS = {
   Accept: "application/vnd.github+json",
-  Authorization: `Bearer ${process.env.GITHUB_SECRET_TOKEN}`,
+  Authorization: `Bearer ${GITHUB_SECRET_TOKEN}`,
 };
 
 // Retry helper

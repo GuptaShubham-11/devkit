@@ -21,6 +21,7 @@ import {
 } from "@repo/ui";
 
 import { http } from "@/lib/http";
+import { secretVariables } from "@/lib/secret-variables";
 import { uploadPath } from "@/lib/upload-path";
 
 type Props = {
@@ -91,7 +92,7 @@ export function FileUpload({ type, slug, userId, onSuccess }: Props) {
     if (!file) return;
 
     setUploading(true);
-
+    const { NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY } = secretVariables();
     try {
       const auth = await fetchAuth();
       const folder = uploadPath({ type, slug, userId });
@@ -100,7 +101,7 @@ export function FileUpload({ type, slug, userId, onSuccess }: Props) {
         file,
         fileName: file.name,
         folder,
-        publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!,
+        publicKey: NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!,
         ...auth,
         onProgress: (e) => {
           if (e.lengthComputable) {

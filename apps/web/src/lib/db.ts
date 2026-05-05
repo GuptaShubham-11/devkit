@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import { secretVariables } from "./secret-variables";
+
 let cached = global.mongoose;
 
 if (!cached) {
@@ -7,11 +9,7 @@ if (!cached) {
 }
 
 export async function connectToDatabase() {
-  const MONGODB_URI = process.env.MONGODB_URI!;
-
-  if (!MONGODB_URI) {
-    throw new Error("Please define the MONGODB_URI in .env variables");
-  }
+  const { MONGODB_URI } = secretVariables();
 
   if (cached.conn) {
     return cached.conn;

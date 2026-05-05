@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import { cn } from "@repo/ui";
 
+import { secretVariables } from "@/lib/secret-variables";
+
 interface SponsoredLogoProps {
   size?: number;
   logoUrl: string;
@@ -18,8 +20,10 @@ const SponsoredLogo = ({
   websiteUrl,
   sponsoredName,
 }: SponsoredLogoProps) => {
+  const { NEXT_PUBLIC_LOGO_DEV_KEY } = secretVariables();
+
   const url = logoUrl.includes("img.logo.dev")
-    ? `${logoUrl}?token=${process.env.NEXT_PUBLIC_LOGO_DEV_KEY}&size=${size}&retina=true`
+    ? `${logoUrl}?token=${NEXT_PUBLIC_LOGO_DEV_KEY}&size=${size}&retina=true`
     : logoUrl;
 
   return (

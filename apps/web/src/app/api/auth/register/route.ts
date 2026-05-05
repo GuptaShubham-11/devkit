@@ -8,11 +8,11 @@ import { sendEmail } from "@/lib/email";
 import { generateRandom } from "@/lib/generate-random";
 import { User } from "@/models/user";
 
-if (!process.env.PRIVATE_KEY_LENGTH) {
-  throw new Error("PRIVATE_KEY_LENGTH must be set at apps/web/.env");
-}
-
 export async function POST(request: NextRequest) {
+  if (!process.env.PRIVATE_KEY_LENGTH) {
+    throw new Error("PRIVATE_KEY_LENGTH must be set at apps/web/.env");
+  }
+
   try {
     const reqData = await request.json();
 
@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
     } else {
       await User.create({
         email: email.toLowerCase(),
+        creditBalance: 20,
         privateKey,
         password,
         otp,
