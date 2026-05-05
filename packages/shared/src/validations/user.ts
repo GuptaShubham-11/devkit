@@ -8,15 +8,16 @@ import {
 
 // Profile Update
 export const updateProfileSchema = z.object({
+  name: z.string().max(50, "Name is too long").optional(),
   profileImage: z.string().url("Invalid profileImage URL").optional(),
-  bio: z.string().max(200, "Bio is too long").optional(),
+  bio: z.string().max(100, "Bio is too long").optional(),
   website: z.string().url("Invalid website URL").optional(),
   githubUsername: z
     .string()
     .max(39, "GitHub username too long")
     .regex(/^[a-zA-Z0-9-]+$/, "Invalid GitHub username")
     .optional(),
-  subscriptionTier: z.enum(["free", "premium"]).optional(),
+  privateKey: z.string().min(11, "Private key is required").optional(),
 });
 
 // Change Password
