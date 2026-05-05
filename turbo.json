@@ -22,7 +22,8 @@
         "NEXT_PUBLIC_API_BASE_URL",
         "NEXT_PUBLIC_LOGO_DEV_KEY",
         "ROLE",
-        "PRIVATE_KEY_LENGTH"
+        "PRIVATE_KEY_LENGTH",
+        "API_BASE_URL"
       ],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
@@ -50,7 +51,8 @@
         "NEXT_PUBLIC_API_BASE_URL",
         "NEXT_PUBLIC_LOGO_DEV_KEY",
         "ROLE",
-        "PRIVATE_KEY_LENGTH"
+        "PRIVATE_KEY_LENGTH",
+        "API_BASE_URL"
       ],
       "cache": false,
       "persistent": true
