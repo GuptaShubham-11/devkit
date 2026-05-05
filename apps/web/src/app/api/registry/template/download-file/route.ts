@@ -8,11 +8,11 @@ import { ITemplate, Template } from "@/models/template";
 import { Transaction } from "@/models/transaction";
 import { User } from "@/models/user";
 
-if (!process.env.GITHUB_SECRET_TOKEN) {
-  throw new Error("GITHUB_SECRET_TOKEN must be set at apps/web/.env");
-}
-
 export async function POST(request: Request) {
+  if (!process.env.GITHUB_SECRET_TOKEN) {
+    throw new Error("GITHUB_SECRET_TOKEN must be set at apps/web/.env");
+  }
+
   try {
     const reqData = await request.json();
 
