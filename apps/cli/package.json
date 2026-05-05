@@ -1,6 +1,16 @@
 {
   "name": "@devkit/cli",
+  "version": "1.0.0",
   "module": "index.ts",
+  "description": "It's a CLI for Devkit which helps you to setup reusable production code.",
+  "keywords": [
+    "module",
+    "production-code",
+    "boilerplate",
+    "devkit"
+  ],
+  "license": "MIT",
+  "author": "Devkit",
   "type": "module",
   "private": true,
   "bin": {
