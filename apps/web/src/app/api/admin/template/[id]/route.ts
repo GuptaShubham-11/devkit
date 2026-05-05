@@ -10,10 +10,6 @@ import { checkUserIsAdmin } from "@/lib/check-admin";
 import { connectToDatabase } from "@/lib/db";
 import { ITemplate, Template } from "@/models/template";
 
-type Prams = {
-  id: string;
-};
-
 export async function PATCH(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
