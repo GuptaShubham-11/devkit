@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 export function secretVariables() {
   const {
     GOOGLE_CLIENT_ID,
