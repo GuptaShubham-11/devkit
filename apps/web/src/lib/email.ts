@@ -1,9 +1,5 @@
 import nodemailer from "nodemailer";
 
-if (!process.env.EMAIL_USER || !process.env.APP_PASSWORD) {
-  throw new Error("EMAIL_USER and APP_PASSWORD must be set!");
-}
-
 export function sendEmail({
   emailAddress,
   emailSubject,
@@ -13,6 +9,10 @@ export function sendEmail({
   emailSubject: string;
   htmlText: string;
 }) {
+  if (!process.env.EMAIL_USER || !process.env.APP_PASSWORD) {
+    throw new Error("EMAIL_USER and APP_PASSWORD must be set!");
+  }
+
   try {
     const mailConfig = {
       service: "gmail",
