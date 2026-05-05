@@ -60,3 +60,4 @@ export * from "./utils";
 // Export hooks
 export * from "./hooks/use-mobile";
 export * from "./hooks/use-copy-to-clipboard";
+export * from "./hooks/use-media-query";
