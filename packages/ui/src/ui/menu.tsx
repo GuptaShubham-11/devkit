@@ -43,7 +43,7 @@ function MenuPopup({
       >
         <MenuPrimitive.Popup
           className={cn(
-            "bg-popover relative flex origin-(--transform-origin) rounded-lg border bg-clip-padding shadow-lg transition-[scale,opacity] outline-none not-[class*='w-']:min-w-32 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] focus:outline-none has-data-starting-style:scale-98 has-data-starting-style:opacity-0 dark:bg-clip-border dark:before:shadow-[0_-1px_--theme(--color-white/8%)]",
+            "bg-popover relative flex origin-(--transform-origin) rounded-lg border bg-clip-padding shadow-lg transition-[scale,opacity] outline-none not-[class*='w-']:min-w-32 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-2xl)-1px)] before:shadow-[0_1px_--theme(--color-black/4%)] focus:outline-none has-data-starting-style:scale-98 has-data-starting-style:opacity-0 dark:bg-clip-border dark:before:shadow-[0_-1px_--theme(--color-white/8%)]",
             className
           )}
           data-slot="menu-popup"
@@ -74,7 +74,7 @@ function MenuItem({
   return (
     <MenuPrimitive.Item
       className={cn(
-        "data-highlighted:bg-accent data-[variant=destructive]:text-destructive-foreground data-highlighted:text-accent-foreground flex cursor-default items-center gap-2 rounded-sm px-2 py-1 text-base outline-none select-none data-disabled:pointer-events-none data-disabled:opacity-64 data-inset:ps-8 sm:text-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-highlighted:bg-accent data-[variant=destructive]:text-destructive-foreground data-highlighted:text-accent-foreground flex cursor-default items-center gap-2 rounded-xl px-2 py-1 text-base outline-none select-none data-disabled:pointer-events-none data-disabled:opacity-64 data-inset:ps-8 sm:text-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       data-inset={inset}

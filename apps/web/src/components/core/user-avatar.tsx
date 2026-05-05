@@ -3,12 +3,14 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+import { motion } from "framer-motion";
 import { CircleFadingArrowUpIcon, TrashIcon, User } from "lucide-react";
 
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  cn,
   Menu,
   MenuGroup,
   MenuItem,
@@ -34,42 +36,51 @@ export const UserAvatar = () => {
       <MenuTrigger className={"cursor-pointer"}>
         <UserIcon data={data} />
       </MenuTrigger>
-      <MenuPopup className={"font-inter"}>
+      <MenuPopup className={"font-inter rounded-2xl"}>
         <MenuGroup>
           <MenuItem disabled className={"data-disabled:opacity-90"}>
             <div className="flex items-center gap-2">
               <UserIcon data={data} />
-              <div className="min-w-0 flex-1">
-                <h4 className="line-clamp-1 text-sm font-medium">
+              <div className="min-w-0 flex-1 leading-tight">
+                <h4 className="max-w-28 truncate text-sm font-medium">
                   {" "}
-                  {data?.user.name || "Anonymous"}{" "}
+                  {data?.user.email || "Product Designer"}{" "}
                 </h4>
-                <div className="text-text-muted flex items-center text-xs">
-                  {data?.user.email || "Product Designer"}
-                </div>
+                <motion.div
+                  className={`${data?.user.currentPlan === "pro" ? "text-accent-success" : "text-text-muted"} flex items-center text-xs`}
+                >
+                  {" "}
+                  {data?.user.currentPlan === "pro"
+                    ? "Premium Plan"
+                    : "Free Plan"}{" "}
+                </motion.div>
               </div>
             </div>
           </MenuItem>
         </MenuGroup>
         <MenuSeparator />
         <MenuGroup>
-          <MenuItem onClick={() => router.push("/account")}>
+          <MenuItem
+            className={"rounded-xl px-4"}
+            onClick={() => router.push("/account")}
+          >
             <User />
             Account
           </MenuItem>
         </MenuGroup>
-        {data?.user.currentPlan !== "pro" && (
-          <MenuItem onClick={() => router.push("/upgrade")}>
-            <CircleFadingArrowUpIcon className="text-accent-success" />
-            Upgrade to Pro
-            <MenuShortcut>⌘U</MenuShortcut>
-          </MenuItem>
-        )}
+        <MenuItem
+          className={"rounded-xl px-4"}
+          onClick={() => router.push("/upgrade")}
+        >
+          <CircleFadingArrowUpIcon className="text-accent-success" />
+          Upgrade
+        </MenuItem>
         <MenuSeparator />
         <MenuItem
           disabled={logoutLoading}
           onClick={logoutUser}
           variant="destructive"
+          className={"rounded-xl px-4"}
         >
           {logoutLoading ? <Spinner /> : <TrashIcon aria-hidden="true" />}
           Logout
@@ -79,12 +90,12 @@ export const UserAvatar = () => {
   );
 };
 
-const UserIcon = ({ data }: { data: any }) => {
+export const UserIcon = ({ data }: { data: any }) => {
   return (
     <div className="relative">
-      <Avatar className={"rounded-xs"}>
+      <Avatar className={cn(`rounded-xs border`)}>
         <AvatarImage alt="User" src={data?.user?.image} />
-        <AvatarFallback className={"rounded-xs"}>LT</AvatarFallback>
+        <AvatarFallback className={cn(`rounded-xs`)}>LT</AvatarFallback>
       </Avatar>
       <PremiumUserAccess>
         <span className="absolute -end-1.5 -top-1.5">
