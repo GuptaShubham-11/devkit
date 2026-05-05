@@ -13,7 +13,7 @@ export function secretVariables() {
     NODE_ENV,
     SALT_ROUNDS,
     PRIVATE_KEY_LENGTH,
-    API_BASE_URL,
+    NEXT_PUBLIC_API_BASE_URL,
     NEXT_PUBLIC_LOGO_DEV_KEY,
     NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
   } = process.env;
@@ -46,8 +46,8 @@ export function secretVariables() {
     throw new Error("PRIVATE_KEY_LENGTH missing");
   }
 
-  if (!API_BASE_URL) {
-    throw new Error("API_BASE_URL missing");
+  if (!NEXT_PUBLIC_API_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_API_BASE_URL missing");
   }
 
   if (!NEXT_PUBLIC_LOGO_DEV_KEY) {
@@ -87,6 +87,6 @@ export function secretVariables() {
     PRIVATE_KEY_LENGTH: Number(PRIVATE_KEY_LENGTH),
 
     // api
-    API_BASE_URL,
+    NEXT_PUBLIC_API_BASE_URL,
   };
 }

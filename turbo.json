@@ -5,7 +5,25 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "env": ["NODE_ENV", "API_BASE_URL"],
+      "env": [
+        "NODE_ENV",
+        "MONGODB_URI",
+        "EMAIL_USER",
+        "APP_PASSWORD",
+        "GEMINI_API_KEY",
+        "NEXTAUTH_SECRET",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "SALT_ROUNDS",
+        "NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT",
+        "NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY",
+        "IMAGEKIT_PRIVATE_KEY",
+        "GITHUB_SECRET_TOKEN",
+        "NEXT_PUBLIC_API_BASE_URL",
+        "NEXT_PUBLIC_LOGO_DEV_KEY",
+        "ROLE",
+        "PRIVATE_KEY_LENGTH"
+      ],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "lint": {
@@ -15,7 +33,25 @@
       "dependsOn": ["^check-types"]
     },
     "dev": {
-      "env": ["NODE_ENV", "API_BASE_URL"],
+      "env": [
+        "NODE_ENV",
+        "MONGODB_URI",
+        "EMAIL_USER",
+        "APP_PASSWORD",
+        "GEMINI_API_KEY",
+        "NEXTAUTH_SECRET",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "SALT_ROUNDS",
+        "NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT",
+        "NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY",
+        "IMAGEKIT_PRIVATE_KEY",
+        "GITHUB_SECRET_TOKEN",
+        "NEXT_PUBLIC_API_BASE_URL",
+        "NEXT_PUBLIC_LOGO_DEV_KEY",
+        "ROLE",
+        "PRIVATE_KEY_LENGTH"
+      ],
       "cache": false,
       "persistent": true
     },

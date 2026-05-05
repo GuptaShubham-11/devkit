@@ -3,13 +3,6 @@ import type { File, Item } from "@repo/shared";
 import { http } from "./http";
 import { secretVariables } from "./secret-variables";
 
-const { GITHUB_SECRET_TOKEN } = secretVariables();
-
-const GITHUB_HEADERS = {
-  Accept: "application/vnd.github+json",
-  Authorization: `Bearer ${GITHUB_SECRET_TOKEN}`,
-};
-
 // Retry helper
 async function withRetry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
   try {
@@ -55,6 +48,13 @@ export async function collectFiles(apiUrl: string): Promise<File[]> {
   let rootPath: string | undefined;
 
   async function traverse(url: string): Promise<void> {
+    const { GITHUB_SECRET_TOKEN } = secretVariables();
+
+    const GITHUB_HEADERS = {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${GITHUB_SECRET_TOKEN}`,
+    };
+
     const res: { status: number; data: Item[] } = await withRetry(() =>
       http.get(url, {
         headers: GITHUB_HEADERS,
