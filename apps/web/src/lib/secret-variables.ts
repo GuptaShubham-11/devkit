@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 export function secretVariables() {
   const {
     GOOGLE_CLIENT_ID,
@@ -52,6 +54,10 @@ export function secretVariables() {
 
   if (!NEXT_PUBLIC_LOGO_DEV_KEY) {
     throw new Error("NEXT_PUBLIC_LOGO_DEV_KEY missing");
+  }
+
+  if (!NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY) {
+    throw new Error("NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY missing");
   }
 
   return {
