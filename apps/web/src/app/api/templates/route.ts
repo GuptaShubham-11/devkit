@@ -6,6 +6,7 @@ import { getTemplatesSchema } from "@repo/shared";
 
 import { checkUserIsAdmin } from "@/lib/check-admin";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { Template } from "@/models/template";
 
 export async function GET(request: NextRequest) {

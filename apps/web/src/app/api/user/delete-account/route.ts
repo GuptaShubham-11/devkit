@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { User } from "@/models/user";
 
 export async function PATCH() {
