@@ -1,7 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-import { secretVariables } from "./lib/secret-variables";
+import { serverEnv } from "@/lib/server-env";
 
 const ADMIN_ROUTES = ["/api/admin"];
 
@@ -12,11 +12,9 @@ const matchRoute = (pathname: string, routes: string[]) => {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const { NEXTAUTH_SECRET, ROLE } = secretVariables();
-
   const token = await getToken({
     req: request,
-    secret: NEXTAUTH_SECRET,
+    secret: serverEnv.NEXTAUTH_SECRET,
   });
 
   const role = token?.isRole;
@@ -28,7 +26,7 @@ export async function proxy(request: NextRequest) {
   }
 
   if (matchRoute(pathname, ADMIN_ROUTES)) {
-    if (!token || role !== ROLE) {
+    if (!token || role !== serverEnv.ROLE) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
   }

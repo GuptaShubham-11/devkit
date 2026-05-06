@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { Install } from "@/models/install";
 import { Template } from "@/models/template";
 import { Transaction } from "@/models/transaction";
@@ -149,7 +150,7 @@ export async function GET() {
       {
         error: "Failed to fetch dashboard",
         details:
-          process.env.NODE_ENV === "development"
+          serverEnv.NODE_ENV === "development"
             ? (error as Error).message
             : undefined,
       },

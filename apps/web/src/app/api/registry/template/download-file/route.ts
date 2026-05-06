@@ -4,15 +4,12 @@ import { downloadTemplateSchema } from "@repo/shared";
 
 import { collectFiles } from "@/lib/collect-files";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { ITemplate, Template } from "@/models/template";
 import { Transaction } from "@/models/transaction";
 import { User } from "@/models/user";
 
 export async function POST(request: Request) {
-  if (!process.env.GITHUB_SECRET_TOKEN) {
-    throw new Error("GITHUB_SECRET_TOKEN must be set at apps/web/.env");
-  }
-
   try {
     const reqData = await request.json();
 
@@ -102,7 +99,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error: "Error downloading template",
-        details: process.env.NODE_ENV === "development" ? error : undefined,
+        details: serverEnv.NODE_ENV === "development" ? error : undefined,
       },
       { status: 500 }
     );

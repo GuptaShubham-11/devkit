@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { secretVariables } from "./secret-variables";
+import { serverEnv } from "./server-env";
 
 let cached = global.mongoose;
 
@@ -9,8 +9,6 @@ if (!cached) {
 }
 
 export async function connectToDatabase() {
-  const { MONGODB_URI } = secretVariables();
-
   if (cached.conn) {
     return cached.conn;
   }
@@ -22,7 +20,9 @@ export async function connectToDatabase() {
       dbName: "devkit",
     };
 
-    mongoose.connect(MONGODB_URI, opts).then(() => mongoose.connection);
+    mongoose
+      .connect(serverEnv.MONGODB_URI, opts)
+      .then(() => mongoose.connection);
   }
 
   try {

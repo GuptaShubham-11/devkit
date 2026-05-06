@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { slugSchema } from "@repo/shared";
 
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { Template } from "@/models/template";
 
 export async function GET(
@@ -49,7 +50,7 @@ export async function GET(
     return NextResponse.json(
       {
         error: "Failed to fetch template",
-        details: process.env.NODE_ENV === "development" ? error : undefined,
+        details: serverEnv.NODE_ENV === "development" ? error : undefined,
       },
       { status: 500 }
     );

@@ -6,13 +6,10 @@ import { emailVerificationHtml } from "@/emails/verification";
 import { connectToDatabase } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
 import { generateRandom } from "@/lib/generate-random";
+import { serverEnv } from "@/lib/server-env";
 import { User } from "@/models/user";
 
 export async function POST(request: NextRequest) {
-  if (!process.env.PRIVATE_KEY_LENGTH) {
-    throw new Error("PRIVATE_KEY_LENGTH must be set at apps/web/.env");
-  }
-
   try {
     const reqData = await request.json();
 
@@ -53,7 +50,7 @@ export async function POST(request: NextRequest) {
     const otpExpiry = new Date(Date.now() + 15 * 60 * 1000);
 
     const privateKey = generateRandom({
-      length: Number(process.env.PRIVATE_KEY_LENGTH),
+      length: Number(serverEnv.PRIVATE_KEY_LENGTH),
       characters: true,
       symbols: true,
       numbers: true,
@@ -92,7 +89,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Registration failed. Please try again.",
-        details: process.env.NODE_ENV === "development" ? error : null,
+        details: serverEnv.NODE_ENV === "development" ? error : null,
       },
       { status: 500 }
     );

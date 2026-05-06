@@ -8,6 +8,7 @@ import { updateTemplateSchema } from "@repo/shared";
 import { authOptions } from "@/lib/auth";
 import { checkUserIsAdmin } from "@/lib/check-admin";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { ITemplate, Template } from "@/models/template";
 
 export async function PATCH(
@@ -118,7 +119,7 @@ export async function PATCH(
     return NextResponse.json(
       {
         error: "Error updating template",
-        details: process.env.NODE_ENV === "development" ? error : undefined,
+        details: serverEnv.NODE_ENV === "development" ? error : undefined,
       },
       { status: 500 }
     );
@@ -182,7 +183,7 @@ export async function DELETE(
     return NextResponse.json(
       {
         error: "Error deleting template",
-        details: process.env.NODE_ENV === "development" ? error : undefined,
+        details: serverEnv.NODE_ENV === "development" ? error : undefined,
       },
       { status: 500 }
     );

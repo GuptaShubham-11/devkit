@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { User } from "@/models/user";
 
 export async function GET() {
@@ -51,9 +52,7 @@ export async function GET() {
     return NextResponse.json(
       {
         error:
-          process.env.NODE_ENV === "development"
-            ? error
-            : "failed to fetch user",
+          serverEnv.NODE_ENV === "development" ? error : "failed to fetch user",
       },
       { status: 500 }
     );

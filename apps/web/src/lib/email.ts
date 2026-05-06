@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-import { secretVariables } from "./secret-variables";
+import { serverEnv } from "./server-env";
 
 export function sendEmail({
   emailAddress,
@@ -11,14 +11,12 @@ export function sendEmail({
   emailSubject: string;
   htmlText: string;
 }) {
-  const { EMAIL_USER, APP_PASSWORD } = secretVariables();
-
   try {
     const mailConfig = {
       service: "gmail",
       auth: {
-        user: EMAIL_USER,
-        pass: APP_PASSWORD,
+        user: serverEnv.EMAIL_USER,
+        pass: serverEnv.APP_PASSWORD,
       },
     };
 

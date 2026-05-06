@@ -6,6 +6,7 @@ import { proAccessSchema } from "@repo/shared";
 
 import { connectToDatabase } from "@/lib/db";
 import { generateRandom } from "@/lib/generate-random";
+import { serverEnv } from "@/lib/server-env";
 import { Template } from "@/models/template";
 import { User } from "@/models/user";
 
@@ -136,7 +137,7 @@ export async function POST(request: NextRequest) {
         allowed: false,
         error: "Error fetching pro access",
         details:
-          process.env.NODE_ENV === "development"
+          serverEnv.NODE_ENV === "development"
             ? (error as Error).message
             : undefined,
       },

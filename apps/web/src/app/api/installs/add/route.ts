@@ -6,6 +6,7 @@ import { createInstallSchema } from "@repo/shared";
 import { authOptions } from "@/lib/auth";
 import { clientIp } from "@/lib/client-ip";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { Install } from "@/models/install";
 
 export async function POST(request: NextRequest) {
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Error creating install",
-        details: process.env.NODE_ENV === "development" ? error : undefined,
+        details: serverEnv.NODE_ENV === "development" ? error : undefined,
       },
       { status: 500 }
     );

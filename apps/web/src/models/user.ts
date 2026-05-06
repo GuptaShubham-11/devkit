@@ -3,7 +3,7 @@ import mongoose, { model, models, Schema } from "mongoose";
 
 import { User as SharedUser } from "@repo/shared";
 
-import { secretVariables } from "@/lib/secret-variables";
+import { serverEnv } from "@/lib/server-env";
 
 export interface IUser extends Document, Omit<SharedUser, "_id"> {
   _id: mongoose.Types.ObjectId;
@@ -96,9 +96,8 @@ const userSchema = new Schema<IUser>(
 );
 
 userSchema.pre("save", async function () {
-  const { SALT_ROUNDS } = secretVariables();
   if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
+    this.password = await bcrypt.hash(this.password, serverEnv.SALT_ROUNDS);
   }
 });
 
