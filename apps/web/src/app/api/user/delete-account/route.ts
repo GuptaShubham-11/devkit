@@ -61,7 +61,7 @@ export async function PATCH() {
     return NextResponse.json(
       {
         error:
-          process.env.NODE_ENV === "development"
+          serverEnv.NODE_ENV === "development"
             ? error
             : "failed to delete user",
       },

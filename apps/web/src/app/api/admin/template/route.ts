@@ -6,6 +6,7 @@ import { createTemplateSchema } from "@repo/shared";
 import { authOptions } from "@/lib/auth";
 import { checkUserIsAdmin } from "@/lib/check-admin";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { Template } from "@/models/template";
 
 export async function POST(request: NextRequest) {
@@ -111,7 +112,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Failed to create template",
-        details: process.env.NODE_ENV === "development" ? error : undefined,
+        details: serverEnv.NODE_ENV === "development" ? error : undefined,
       },
       { status: 500 }
     );

@@ -7,6 +7,7 @@ import { emailVerificationHtml } from "@/emails/verification";
 import { connectToDatabase } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
 import { generateRandom } from "@/lib/generate-random";
+import { serverEnv } from "@/lib/server-env";
 import { User } from "@/models/user";
 
 export async function PATCH(request: NextRequest) {
@@ -64,7 +65,7 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Forgot password process failed!",
-        details: process.env.NODE_ENV === "development" ? error : null,
+        details: serverEnv.NODE_ENV === "development" ? error : null,
       },
       { status: 500 }
     );

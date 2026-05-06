@@ -2,6 +2,8 @@
 
 import { useSession } from "next-auth/react";
 
+import { clientEnv } from "@/lib/client-env";
+
 export const AdminAccess = ({
   children,
   fallback = null,
@@ -18,7 +20,7 @@ export const AdminAccess = ({
   }
 
   const userRole = data?.user?.isRole;
-  const adminRole = process.env.NEXT_PUBLIC_ROLE;
+  const adminRole = clientEnv.ROLE!;
 
   if (!userRole || userRole !== adminRole) {
     return <>{fallback}</>;

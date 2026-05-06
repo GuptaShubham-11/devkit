@@ -1,11 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@repo/ui";
 
-import { secretVariables } from "@/lib/secret-variables";
+import { clientEnv } from "@/lib/client-env";
 
 interface SponsoredLogoProps {
   size?: number;
@@ -20,10 +19,8 @@ const SponsoredLogo = ({
   websiteUrl,
   sponsoredName,
 }: SponsoredLogoProps) => {
-  const { NEXT_PUBLIC_LOGO_DEV_KEY } = secretVariables();
-
   const url = logoUrl.includes("img.logo.dev")
-    ? `${logoUrl}?token=${NEXT_PUBLIC_LOGO_DEV_KEY}&size=${size}&retina=true`
+    ? `${logoUrl}?token=${clientEnv.LOGO_DEV_KEY!}&size=${size}&retina=true`
     : logoUrl;
 
   return (

@@ -5,6 +5,7 @@ import { changePasswordSchema } from "@repo/shared";
 
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { User } from "@/models/user";
 
 export async function PATCH(request: NextRequest) {
@@ -78,7 +79,7 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          process.env.NODE_ENV === "development"
+          serverEnv.NODE_ENV === "development"
             ? error
             : "failed to change password",
       },

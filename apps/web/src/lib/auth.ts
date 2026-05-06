@@ -7,6 +7,7 @@ import { loginSchema } from "@repo/shared";
 import { User } from "@/models/user";
 
 import { connectToDatabase } from "./db";
+import { serverEnv } from "./server-env";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -82,8 +83,8 @@ export const authOptions: NextAuthOptions = {
     }),
 
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: serverEnv.GOOGLE_CLIENT_ID!,
+      clientSecret: serverEnv.GOOGLE_CLIENT_SECRET!,
       async profile(profile) {
         // Normalize returned profile
         return {
@@ -174,5 +175,5 @@ export const authOptions: NextAuthOptions = {
     maxAge: 10 * 24 * 60 * 60, // 10 days
   },
 
-  secret: process.env.NEXTAUTH_SECRET!,
+  secret: serverEnv.NEXTAUTH_SECRET!,
 };

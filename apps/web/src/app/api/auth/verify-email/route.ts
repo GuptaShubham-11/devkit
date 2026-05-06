@@ -78,7 +78,7 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Failed to verify email!",
-        details: process.env.NODE_ENV === "development" ? error : null,
+        details: serverEnv.NODE_ENV === "development" ? error : null,
       },
       { status: 400 }
     );

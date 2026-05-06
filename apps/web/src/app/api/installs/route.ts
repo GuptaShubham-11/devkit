@@ -7,6 +7,7 @@ import { getInstallsSchema } from "@repo/shared";
 
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { Install } from "@/models/install";
 
 export async function GET(request: NextRequest) {
@@ -148,7 +149,7 @@ export async function GET(request: NextRequest) {
       {
         error: "Error fetching installs",
         details:
-          process.env.NODE_ENV === "development"
+          serverEnv.NODE_ENV === "development"
             ? (error as Error).message
             : undefined,
       },

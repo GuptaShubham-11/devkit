@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { resetPasswordSchema } from "@repo/shared";
 
 import { connectToDatabase } from "@/lib/db";
+import { serverEnv } from "@/lib/server-env";
 import { User } from "@/models/user";
 
 export async function PUT(request: NextRequest) {
@@ -61,7 +62,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Failed to reset password. Please try again.",
-        details: process.env.NODE_ENV === "development" ? error : null,
+        details: serverEnv.NODE_ENV === "development" ? error : null,
       },
       { status: 500 }
     );

@@ -178,7 +178,7 @@ export async function GET(request: NextRequest) {
       {
         error: "Failed to fetch templates",
         details:
-          process.env.NODE_ENV === "development"
+          serverEnv.NODE_ENV === "development"
             ? (error as Error).message
             : undefined,
       },

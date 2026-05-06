@@ -1,11 +1,9 @@
 import { axiosInstance } from "@repo/shared";
 
-import { secretVariables } from "./secret-variables";
-
-const { NEXT_PUBLIC_API_BASE_URL } = secretVariables();
+import { clientEnv } from "./client-env";
 
 const http = axiosInstance.create({
-  baseURL: NEXT_PUBLIC_API_BASE_URL,
+  baseURL: clientEnv.API_BASE_URL!,
 });
 
 export { http };
