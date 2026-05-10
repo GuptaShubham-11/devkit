@@ -11,6 +11,9 @@ import {
   Eye,
   MoreVerticalIcon,
   ScanEyeIcon,
+  ScanSearchIcon,
+  Settings2Icon,
+  ShapesIcon,
 } from "lucide-react";
 
 import { Template } from "@repo/shared";
@@ -38,7 +41,6 @@ import { ViewTemplate } from "./view-template";
 export const TemplateCard = ({ template }: { template: Template }) => {
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
-  const router = useRouter();
 
   const handleOpen = () => setOpen(true);
   const handleUpdateOpen = () => setUpdateOpen(true);
@@ -72,22 +74,32 @@ export const TemplateCard = ({ template }: { template: Template }) => {
           </div>
 
           <Menu>
-            <MenuTrigger render={<Button variant="ghost" size={"icon-xs"} />}>
+            <MenuTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size={"icon-xs"}
+                  className="rounded-xl"
+                />
+              }
+            >
               <MoreVerticalIcon />
             </MenuTrigger>
-            <MenuPopup className={"bg-surface-primary"}>
-              <MenuGroup className={"text-text-secondary"}>
-                <MenuGroupLabel>Actions</MenuGroupLabel>
-                <MenuItem onClick={handleOpen} className="cursor-pointer">
-                  <Eye className="text-text-muted" />
+            <MenuPopup className={"max-w-fit rounded-2xl"}>
+              <MenuGroup>
+                <MenuItem
+                  onClick={handleOpen}
+                  className="text-text-muted cursor-pointer rounded-2xl pl-4"
+                >
+                  <ShapesIcon className="text-text-secondary size-4" />
                   Open
                 </MenuItem>
                 <AdminAccess>
                   <MenuItem
                     onClick={handleUpdateOpen}
-                    className="cursor-pointer"
+                    className="text-text-muted cursor-pointer rounded-2xl pl-4"
                   >
-                    <Edit className="text-text-muted" />
+                    <Settings2Icon className="text-text-secondary size-4" />
                     Update
                   </MenuItem>
                 </AdminAccess>
@@ -145,14 +157,14 @@ export const TemplateCard = ({ template }: { template: Template }) => {
             <div className="flex items-center gap-1">
               <Download className="text-accent-success size-4" />
               <span className="font-medium">
-                {template.downloads.toLocaleString()}
+                {template.downloads.toLocaleString().padStart(2, "0")}
               </span>
             </div>
 
             <div className="flex items-center gap-1">
-              <ScanEyeIcon className="text-text-secondary size-4" />
+              <ScanSearchIcon className="text-text-secondary size-4" />
               <span className="font-medium">
-                {template.views.toLocaleString()}
+                {template.views.toLocaleString().padStart(2, "0")}
               </span>
             </div>
           </div>
@@ -161,17 +173,6 @@ export const TemplateCard = ({ template }: { template: Template }) => {
         <div className="bg-surface-secondary absolute inset-x-0 bottom-0 flex translate-y-[110%] gap-2 rounded-b-2xl border-t p-3 opacity-0 transition-all duration-600 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover:translate-y-0 group-hover:opacity-100">
           <Button onClick={handleOpen} size="sm" className="flex-1">
             Use Template
-          </Button>
-          <Button
-            disabled={
-              !template.codeUrl || template.isPro || !template.withoutLogin
-            }
-            onClick={() => router.push(template.codeUrl ?? "")}
-            size="sm"
-            variant="outline"
-          >
-            <ExternalLink />
-            Link
           </Button>
         </div>
       </Card>

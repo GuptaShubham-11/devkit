@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { useIsMobile } from "@repo/ui";
+import { Spinner, useIsMobile } from "@repo/ui";
 
 import { Dashboard } from "@/components/dashboard/dashboard";
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
@@ -25,7 +25,13 @@ export default function DashboardPage() {
     refetchOnWindowFocus: false,
   });
 
-  if (isLoading) return <DashboardSkeleton />;
+  if (isLoading) {
+    return (
+      <main className="font-inter flex min-h-screen items-center justify-center">
+        <Spinner />
+      </main>
+    );
+  }
 
   const { overview, charts, suggestions } = data;
 

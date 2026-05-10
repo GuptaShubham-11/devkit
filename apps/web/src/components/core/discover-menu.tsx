@@ -5,6 +5,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
+  DiamondPlusIcon,
+  HatGlassesIcon,
+  Layers2,
+  Layers2Icon,
   LayersIcon,
   LayoutDashboardIcon,
   MenuIcon,
@@ -31,29 +35,27 @@ export const DiscoverMenu = () => {
         <MenuTrigger render={<Button variant="outline" size={"icon"} />}>
           <MenuIcon />
         </MenuTrigger>
-        <MenuPopup className={"font-inter rounded-2xl p-1"}>
+        <MenuPopup className={"max-w-fit rounded-2xl"}>
           <MenuItem
             onClick={() => router.push("/dashboard")}
             data-active={isActive("/dashboard")}
             className={cn(
-              isActive("/dashboard") &&
-                !dialogOpen &&
-                "bg-accent-primary/70 dark:hover:bg-accent-primary/80 font-medium"
+              "text-text-muted rounded-2xl pl-4",
+              isActive("/dashboard") && "bg-surface-secondary text-text-primary"
             )}
           >
-            <LayoutDashboardIcon />
+            <LayoutDashboardIcon className="text-text-secondary size-4" />
             Dashboard
           </MenuItem>
           <MenuItem
             onClick={() => router.push("/templates")}
             data-active={isActive("/templates")}
             className={cn(
-              isActive("/templates") &&
-                !dialogOpen &&
-                "bg-accent-primary/70 dark:hover:bg-accent-primary/80 font-medium"
+              "text-text-muted rounded-2xl pl-4",
+              isActive("/templates") && "bg-surface-secondary text-text-primary"
             )}
           >
-            <LayersIcon />
+            <Layers2Icon className="text-text-secondary size-4" />
             Templates
           </MenuItem>
           <AdminAccess>
@@ -61,22 +63,19 @@ export const DiscoverMenu = () => {
               onClick={() => router.push("/admin/a-d")}
               data-active={isActive("/admin/a-d")}
               className={cn(
+                "text-text-muted rounded-2xl pl-4",
                 isActive("/admin/a-d") &&
-                  !dialogOpen &&
-                  "bg-accent-primary/70 dark:hover:bg-accent-primary/80 font-medium"
+                  "bg-surface-secondary text-text-primary"
               )}
             >
-              <ShieldCheck />
+              <HatGlassesIcon className="text-text-secondary size-4" />
               Admin
             </MenuItem>
             <MenuItem
               onClick={() => setDialogOpen(true)}
-              className={cn(
-                dialogOpen &&
-                  "bg-accent-primary/70 dark:hover:bg-accent-primary/80 font-medium"
-              )}
+              className={cn("text-text-muted rounded-2xl pl-4")}
             >
-              <PlusIcon />
+              <DiamondPlusIcon className="text-text-secondary size-4" />
               Create
             </MenuItem>
           </AdminAccess>

@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -52,12 +54,19 @@ export function ViewTemplate({
   open: boolean;
 }) {
   const { copyToClipboard, isCopied } = useCopyToClipboard();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const [clicked, setClicked] = React.useState<0 | 1 | 2 | null>(null);
 
   const router = useRouter();
-  const canUse = template.isPro && session?.user.currentPlan === "pro";
+  const canNotUse = template.isPro && session?.user.currentPlan === "free";
 
-  const installCommand = `devkit add ${template.slug}`;
+  // free free
+  // pro free pro
+  console.log(canNotUse, template.isPro, session?.user.currentPlan);
+
+  const notloggedIn = status == "unauthenticated";
+
+  const installCommand = `devkit add ${template.slug} app-sample`;
 
   const isSponsored =
     template.isSponsored &&
@@ -220,9 +229,11 @@ export function ViewTemplate({
                   <TerminalIcon className="text-accent-warning size-4" />
                   <ScrollArea className={"max-w-54"} scrollFade scrollbarGutter>
                     <div className="w-max pt-2">
-                      {canUse
-                        ? installCommand
-                        : "Upgrade to Pro to use this template"}
+                      {notloggedIn
+                        ? "Please login to use this template"
+                        : !canNotUse
+                          ? installCommand
+                          : "Upgrade to Pro to use this template"}
                     </div>
                   </ScrollArea>
                 </div>
@@ -230,10 +241,13 @@ export function ViewTemplate({
                 <Button
                   size="icon-sm"
                   variant="outline"
-                  disabled={!canUse}
-                  onClick={() => copyToClipboard(installCommand)}
+                  disabled={canNotUse}
+                  onClick={() => {
+                    copyToClipboard(installCommand);
+                    setClicked(0);
+                  }}
                 >
-                  {isCopied ? (
+                  {isCopied && clicked === 0 ? (
                     <CheckIcon className="text-accent-success" />
                   ) : (
                     <CopyIcon />
@@ -259,12 +273,13 @@ export function ViewTemplate({
                 <Button
                   size="icon-sm"
                   variant="outline"
-                  disabled={!canUse}
-                  onClick={() =>
-                    copyToClipboard(template.installer.dependencies)
-                  }
+                  disabled={canNotUse}
+                  onClick={() => {
+                    copyToClipboard(template.installer.dependencies);
+                    setClicked(1);
+                  }}
                 >
-                  {isCopied ? (
+                  {isCopied && clicked === 1 ? (
                     <CheckIcon className="text-accent-success" />
                   ) : (
                     <CopyIcon />
@@ -286,12 +301,13 @@ export function ViewTemplate({
               <Button
                 size="icon-sm"
                 variant="outline"
-                disabled={!canUse}
-                onClick={() =>
-                  copyToClipboard(template.installer.devDependencies)
-                }
+                disabled={canNotUse}
+                onClick={() => {
+                  copyToClipboard(template.installer.devDependencies);
+                  setClicked(2);
+                }}
               >
-                {isCopied ? (
+                {isCopied && clicked === 2 ? (
                   <CheckIcon className="text-accent-success" />
                 ) : (
                   <CopyIcon />
@@ -311,16 +327,18 @@ export function ViewTemplate({
                 Production Live Demo
               </Button>
 
-              <Button
-                size="lg"
-                variant="secondary"
-                disabled={!template.codeUrl}
-                onClick={() => router.push(template.codeUrl ?? "")}
-                className="text-text-primary"
-              >
-                <ExternalLink className="size-5" />
-                View Repository
-              </Button>
+              {template.codeUrl && (
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  disabled={!template.codeUrl}
+                  onClick={() => router.push(template.codeUrl ?? "")}
+                  className="text-text-primary"
+                >
+                  <ExternalLink className="size-5" />
+                  View Repository
+                </Button>
+              )}
             </div>
 
             <Separator orientation="horizontal" />
