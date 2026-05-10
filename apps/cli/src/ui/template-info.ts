@@ -1,9 +1,7 @@
 import boxen from "boxen";
 import chalk from "chalk";
 
-import { Template } from "@repo/shared";
-
-import { log } from "../lib/logger.js";
+import { Template } from "@/commands/create.js";
 
 export function showTemplateInfo(data: Template) {
   if (!data) return;

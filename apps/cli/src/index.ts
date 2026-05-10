@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import { slugSchema } from "@repo/shared";
-
 import { createProject } from "./commands/create.js";
 import { CLI_NAME, URLS } from "./config/constant.js";
 import { log } from "./lib/logger.js";
 import { showHelp, showVersion } from "./lib/show-help.js";
+
+const slugRegex = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 async function main() {
   try {
@@ -59,8 +59,8 @@ async function handleCreate(args: string[]) {
     );
   }
 
-  const validSlugFormat = slugSchema.safeParse(templateSlug);
-  if (!validSlugFormat.success) {
+  const validSlugFormat = slugRegex.test(templateSlug);
+  if (!validSlugFormat) {
     return showUsageError(
       "Invalid template slug format!",
       `${CLI_NAME} add react-basic my-app`
@@ -68,7 +68,7 @@ async function handleCreate(args: string[]) {
   }
 
   log.title(" ▲ Devkit");
-  log.option("https://devkit.sh");
+  log.option(`${URLS.frontend}`);
   log.divider();
 
   log.blank();

@@ -1,8 +1,6 @@
 import chalk from "chalk";
 import path from "path";
 
-import type { Template } from "@repo/shared";
-
 import { errorMessage } from "../lib/error-message.js";
 import { log } from "../lib/logger.js";
 import { fail, spin, stop, succeed } from "../lib/spinner.js";
@@ -14,6 +12,63 @@ import { fetchTemplate } from "../services/fetch-template.js";
 import { confirmStart } from "../ui/confirm-start.js";
 import { nextSteps } from "../ui/next-steps.js";
 import { showTemplateInfo } from "../ui/template-info.js";
+
+export interface Template {
+  _id: string;
+
+  name: string;
+  slug: string;
+  description: string;
+
+  stack: string[];
+  tags: string[];
+  features: string[];
+
+  repoUrl: string;
+  version: string;
+
+  codeUrl?: string;
+  liveUrl?: string;
+
+  folderStructure: string;
+
+  withoutLogin: boolean;
+
+  isPro: boolean;
+  creditCost: number;
+
+  isPublished: boolean;
+  isFeatured: boolean;
+  isSponsored: boolean;
+  isDeleted: boolean;
+
+  sponsoredBy?: {
+    name?: string;
+    url?: string;
+    logo?: string;
+  };
+
+  isRepoTemplate: boolean;
+
+  installer: {
+    name: string;
+    dependencies: string;
+    devDependencies: string;
+    installCommand: string;
+    addDependenciesCommand: string;
+    addDevDependenciesCommand: string;
+  };
+
+  imageUrl: string;
+  videoUrl?: string;
+
+  views: number;
+  copies: number;
+  downloads: number;
+
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export async function createProject(templateSlug: string, projectName: string) {
   const startTime = Date.now();
