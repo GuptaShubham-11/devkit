@@ -1,14 +1,18 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 import { Template } from "@repo/shared";
+import { cn } from "@repo/ui";
 
 import { convertQueryToString } from "@/lib/convert-query-to-string";
 import { http } from "@/lib/http";
 import { useQuery as useTemplateQuery } from "@/store/template";
 
 import { Container } from "../core/container";
+import { Header } from "../landing/header";
 import { PaginationTemplate } from "./pagination-template";
 import { TemplateCard } from "./template-card";
 import { TemplateCardSkeleton } from "./template-card-skeleton";
@@ -16,6 +20,7 @@ import { TemplateCardSkeleton } from "./template-card-skeleton";
 // import { templateData } from "@/mock-data/template-data";  // mock templates data
 
 export const GridTemplate = () => {
+  const { status } = useSession();
   const query = useTemplateQuery();
 
   const { data, isLoading, isFetching } = useQuery({
@@ -40,6 +45,7 @@ export const GridTemplate = () => {
   if (isLoading) {
     return (
       <div className="grid gap-4">
+        {status === "unauthenticated" && <Header />}
         <h3 className="text-text-secondary relative text-2xl font-semibold">
           <div className="bg-accent-primary absolute -left-2 -z-10 h-8 w-35 -rotate-1 opacity-70" />
           Templates
@@ -54,15 +60,21 @@ export const GridTemplate = () => {
   }
 
   return (
-    <Container className="mb-10 grid justify-center gap-6 sm:mb-20">
+    <Container className="mb-10 grid justify-center gap-6">
       <div className="grid gap-4">
-        <h3 className="text-text-secondary relative text-2xl font-semibold">
+        {status === "unauthenticated" && <Header />}
+        <h3
+          className={cn(
+            "text-text-secondary relative text-2xl font-semibold",
+            status === "authenticated" ? "mt-20" : "mt-5"
+          )}
+        >
           <div className="bg-accent-primary absolute -left-2 -z-10 h-8 w-35 -rotate-1 opacity-70" />
           Templates
         </h3>
         <div
           className={`grid grid-cols-1 gap-4 transition-opacity sm:grid-cols-2 sm:px-6 md:grid-cols-3 ${
-            isFetching ? "pointer-events-none opacity-60" : ""
+            isFetching ? "pointer-events-none opacity-70" : ""
           }`}
         >
           {templates.map((template: Template) => (

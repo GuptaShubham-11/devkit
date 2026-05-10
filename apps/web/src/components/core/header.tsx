@@ -22,7 +22,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="bg-bg-primary font-inter absolute top-0 z-50 flex h-14 w-full items-center justify-center border">
+      <header className="bg-bg-primary font-inter absolute top-0 z-50 flex h-16 w-full items-center justify-center border">
         <nav className="flex w-full max-w-5xl items-center justify-between p-4">
           <Logo size={72} />
 

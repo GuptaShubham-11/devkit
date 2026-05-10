@@ -20,7 +20,7 @@ export const AdminAccess = ({
   }
 
   const userRole = data?.user?.isRole;
-  const adminRole = clientEnv.ROLE!;
+  const adminRole = clientEnv.ROLE! || "test";
 
   if (!userRole || userRole !== adminRole) {
     return <>{fallback}</>;

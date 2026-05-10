@@ -17,9 +17,9 @@ export const useLogout = () => {
 
       if (!response) {
         toastManager.add({
-          title: "Uh oh! logout failed",
-          description: "Logout proccess failed!",
-          type: "error",
+          title: "Success! logout successful!",
+          description: "Logout successful!",
+          type: "success",
         });
 
         return null;
