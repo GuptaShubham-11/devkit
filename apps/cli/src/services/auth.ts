@@ -2,8 +2,6 @@ import boxen from "boxen";
 import chalk from "chalk";
 import prompts from "prompts";
 
-import { emailPattern } from "@repo/shared";
-
 import { URLS } from "../config/constant.js";
 import { log } from "../lib/logger.js";
 import { fail, spin, succeed } from "../lib/spinner.js";
@@ -24,6 +22,7 @@ export type ProResult = {
 };
 
 async function promptCredentials() {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const response = await prompts(
     [
       {

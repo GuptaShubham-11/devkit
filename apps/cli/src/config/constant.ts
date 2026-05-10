@@ -2,9 +2,10 @@ export const CLI_NAME = "devkit";
 export const VERSION = "0.0.1";
 
 export const URLS = {
-  support: "https://devkit.sh",
-  pricing: "https://devkit.sh/pricing",
-  backend: "https://devkit.sh/api",
+  frontend: "https://devkit-khaki.vercel.app",
+  support: "https://devkit-khaki.vercel.app",
+  pricing: "https://devkit-khaki.vercel.app/pricing",
+  backend: "https://devkit-khaki.vercel.app/api",
   local: "http://localhost:3000/api",
 } as const;
 
