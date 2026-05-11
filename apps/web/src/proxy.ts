@@ -19,20 +19,43 @@ export async function proxy(request: NextRequest) {
 
   const role = token?.isRole;
 
+  // Protect dashboard/account
   if (pathname.startsWith("/dashboard") || pathname.startsWith("/account")) {
     if (!token) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }
 
+  // Prevent logged-in users
+  // from auth pages
+  if (
+    pathname === "/" ||
+    pathname.startsWith("/auth/login") ||
+    pathname.startsWith("/auth/register") ||
+    pathname.startsWith("/auth/forgot-password") ||
+    pathname.startsWith("/auth/verify-email")
+  ) {
+    if (token) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
+  // Admin protection
   if (matchRoute(pathname, ADMIN_ROUTES)) {
     if (!token || role !== serverEnv.ROLE) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
   }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/account/:path*", "/api/admin/:path*"],
+  matcher: [
+    "/",
+    "/auth/:path*",
+    "/dashboard/:path*",
+    "/account/:path*",
+    "/api/admin/:path*",
+  ],
 };
