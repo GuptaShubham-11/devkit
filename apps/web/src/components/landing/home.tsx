@@ -1,5 +1,7 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+
 import { Container } from "../core/container";
 import { BentoGrid } from "./bento-grid";
 import { Footer } from "./footer";
@@ -10,9 +12,10 @@ import { SponsoredRail } from "./sponsore-rail";
 import { WallOfLove } from "./wall-of-love";
 
 export const Home = () => {
+  const { status } = useSession();
   return (
     <Container className="relative flex min-h-screen flex-col sm:px-0">
-      <Header />
+      {status === "unauthenticated" && <Header />}
       <Hero />
       <BentoGrid />
       <WallOfLove />

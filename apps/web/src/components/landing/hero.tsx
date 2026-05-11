@@ -2,6 +2,7 @@
 
 import React from "react";
 
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { motion } from "framer-motion";
@@ -13,9 +14,15 @@ import { Terminal } from "./terminal";
 
 export const Hero = () => {
   const router = useRouter();
+  const { status } = useSession();
 
   return (
-    <section className="relative flex flex-col items-center justify-center overflow-hidden px-4 pt-14 pb-14 sm:pt-20 sm:pb-20">
+    <section
+      className={cn(
+        "relative flex flex-col items-center justify-center overflow-hidden px-4 pt-14 pb-14 sm:pt-20 sm:pb-20",
+        status === "authenticated" && "sm:pt-30"
+      )}
+    >
       {/* content */}
       <motion.div
         initial={{
