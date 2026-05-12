@@ -22,7 +22,12 @@
         "NEXT_PUBLIC_API_BASE_URL",
         "NEXT_PUBLIC_LOGO_DEV_KEY",
         "ROLE",
-        "PRIVATE_KEY_LENGTH"
+        "PRIVATE_KEY_LENGTH",
+        "DODO_PAYMENTS_API_KEY",
+        "DODO_WEBHOOK_SECRET",
+        "DODO_PAYMENTS_ENVIRONMENT",
+        "DODO_PAYMENTS_RETURN_URL",
+        "PRODUCT_PRO_50_CREDITS"
       ],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
@@ -50,7 +55,12 @@
         "NEXT_PUBLIC_API_BASE_URL",
         "NEXT_PUBLIC_LOGO_DEV_KEY",
         "ROLE",
-        "PRIVATE_KEY_LENGTH"
+        "PRIVATE_KEY_LENGTH",
+        "DODO_PAYMENTS_API_KEY",
+        "DODO_WEBHOOK_SECRET",
+        "DODO_PAYMENTS_ENVIRONMENT",
+        "DODO_PAYMENTS_RETURN_URL",
+        "PRODUCT_PRO_50_CREDITS"
       ],
       "cache": false,
       "persistent": true

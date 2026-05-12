@@ -2,48 +2,25 @@
 
 import { useState } from "react";
 
-import { useSession } from "next-auth/react";
-
 import { useQuery } from "@tanstack/react-query";
 import {
-  CheckCircleIcon,
   CheckIcon,
   CogIcon,
   CopyIcon,
   DollarSignIcon,
-  KeyRoundIcon,
-  Mail,
-  SettingsIcon,
   User,
 } from "lucide-react";
 
-import {
-  Badge,
-  Button,
-  cn,
-  Dialog,
-  DialogClose,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogPanel,
-  DialogPopup,
-  DialogTitle,
-  DialogTrigger,
-  Input,
-  ScrollArea,
-  Separator,
-  Spinner,
-  useCopyToClipboard,
-} from "@repo/ui";
+import { Button, cn, Spinner, useCopyToClipboard } from "@repo/ui";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@repo/ui";
 
 import { formatDate } from "@/lib/formate-date";
 import { http } from "@/lib/http";
 
 import { Container } from "../core/container";
-import { UserIcon } from "../core/user-avatar";
+import { BillingTable } from "./billing-table";
 import { ChangePassword } from "./change-password";
+import { CreditDetail } from "./credit-detail";
 import { DeleteAccount } from "./delete-account";
 import { EditProfile } from "./edit-account";
 
@@ -168,9 +145,9 @@ export function Account() {
           </div>
         </TabsPanel>
         <TabsPanel value="billing">
-          <p className="text-muted-foreground p-4 text-center text-xs">
-            Billing content
-          </p>
+          <div className="min-h-screen">
+            <BillingTable />
+          </div>
         </TabsPanel>
         <TabsPanel value="settings">
           <div className="min-h-screen w-fit">
