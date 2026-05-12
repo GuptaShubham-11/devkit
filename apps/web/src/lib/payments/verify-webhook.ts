@@ -7,19 +7,18 @@ import { Payment } from "@/models/payment";
 import { User } from "@/models/user";
 
 /**
- * Webhook processing utilities.
+ * Dodo Payments Webhook Processing
  *
  * Responsibilities:
- * - Extract webhook payload data safely
- * - Validate metadata
- * - Enforce idempotency
- * - Create payment records
- * - Grant credits
+ * - Validate webhook metadata
+ * - Prevent duplicate processing
+ * - Store payment records
+ * - Grant credits safely
  *
  * Notes:
- * - Amounts are stored in lowest denomination (cents)
- * - Credits are granted only after verified webhook events
- * - MongoDB remains source of truth
+ * - Credits are granted ONLY from verified webhooks
+ * - MongoDB is source of truth
+ * - Payment processing is idempotent
  */
 
 type AnyRecord = Record<string, any>;
@@ -32,7 +31,7 @@ interface ExtractedPaymentFields {
   currency: string;
   status: string;
   invoiceUrl?: string;
-  metadata: AnyRecord;
+  metadata: Record<string, any>;
 }
 
 export async function handlePaymentSucceeded(payload: AnyRecord) {
@@ -52,6 +51,11 @@ export async function handlePaymentSucceeded(payload: AnyRecord) {
     paymentId: payment.paymentId,
   }).lean();
 
+  /**
+   * Idempotency guard.
+   * Prevent duplicate webhook retries
+   * from granting credits multiple times.
+   */
   if (existingPayment) {
     return {
       ok: true,
@@ -67,18 +71,12 @@ export async function handlePaymentSucceeded(payload: AnyRecord) {
   await addCredits({
     userId: metadata.userId,
     credits: metadata.credits,
-
     type: "purchase",
-
     referenceId: payment.paymentId,
-
     description: `Credits purchase (${metadata.planId})`,
-
     metadata: {
       checkoutSessionId: payment.checkoutSessionId,
-
       currency: payment.currency,
-
       amount: payment.amount,
     },
   });
@@ -92,48 +90,32 @@ export async function handlePaymentSucceeded(payload: AnyRecord) {
 export function extractPaymentFields(
   payload: AnyRecord
 ): ExtractedPaymentFields {
-  const paymentId =
-    pick<string>(payload, ["data.payment.id", "data.id", "id"]) || "";
-
-  const checkoutSessionId =
-    pick<string>(payload, [
-      "data.payment.checkout_session_id",
-      "data.checkout_session_id",
-      "data.session_id",
-    ]) || undefined;
-
-  const amount =
-    pick<number>(payload, ["data.payment.amount", "data.amount"]) ?? 0;
-
-  const currency =
-    pick<string>(payload, ["data.payment.currency", "data.currency"]) || "USD";
-
-  const status =
-    pick<string>(payload, ["data.payment.status", "data.status"]) ||
-    "succeeded";
-
-  const invoiceUrl =
-    pick<string>(payload, ["data.payment.invoice_url", "data.invoice_url"]) ||
-    undefined;
-
-  const metadata =
-    pick<AnyRecord>(payload, [
-      "data.payment.metadata",
-      "data.metadata",
-      "metadata",
-    ]) || {};
-
-  const eventType = (payload?.type as string) || "";
+  const data = payload?.data || {};
 
   return {
-    eventType,
-    paymentId,
-    checkoutSessionId,
-    amount,
-    currency,
-    status,
-    invoiceUrl,
-    metadata,
+    eventType: payload?.type || "",
+
+    paymentId: data.payment_id || "",
+
+    checkoutSessionId: data.checkout_session_id || undefined,
+
+    /**
+     * Dodo returns amounts
+     * in lowest denomination.
+     *
+     * Example:
+     * INR → paise
+     * USD → cents
+     */
+    amount: Number(data.total_amount || 0),
+
+    currency: data.currency || "USD",
+
+    status: data.status || "succeeded",
+
+    invoiceUrl: data.invoice_url || undefined,
+
+    metadata: data.metadata || {},
   };
 }
 
@@ -143,13 +125,13 @@ function validatePaymentId(paymentId: string) {
   }
 }
 
-function validateWebhookMetadata(metadata: AnyRecord) {
+function validateWebhookMetadata(metadata: Record<string, any>) {
   const parsed = webhookMetadataSchema.safeParse(metadata);
 
   if (!parsed.success) {
     throw new Error(
       `Webhook metadata invalid: ${
-        parsed.error.issues?.[0]?.message ?? "invalid"
+        parsed.error.issues?.[0]?.message || "invalid"
       }`
     );
   }
@@ -175,6 +157,7 @@ async function validateUser(userId: string) {
 
 async function createPaymentRecord(params: {
   payment: ExtractedPaymentFields;
+
   metadata: {
     userId: string;
     planId: string;
@@ -185,44 +168,14 @@ async function createPaymentRecord(params: {
 
   await Payment.create({
     userId: metadata.userId,
-
     paymentId: payment.paymentId,
-
     checkoutSessionId: payment.checkoutSessionId,
-
     planId: metadata.planId,
-
     amount: payment.amount,
-
     currency: payment.currency,
-
     creditsGranted: metadata.credits,
-
     status: payment.status,
-
     invoiceUrl: payment.invoiceUrl,
-
     metadata: payment.metadata,
   });
-}
-
-function pick<T = any>(
-  obj: AnyRecord | undefined,
-  paths: string[]
-): T | undefined {
-  if (!obj) {
-    return undefined as T;
-  }
-
-  for (const path of paths) {
-    const value = path
-      .split(".")
-      .reduce((acc: any, key: string) => (acc ? acc[key] : undefined), obj);
-
-    if (value !== undefined && value !== null) {
-      return value as T;
-    }
-  }
-
-  return undefined as T;
 }
