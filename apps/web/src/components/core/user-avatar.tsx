@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -23,70 +25,74 @@ import {
 
 import { useLogout } from "@/hooks";
 
+import { Upgrade } from "../account/upgrade";
 import { PremiumUserAccess } from "./premium-user-access";
 
 export const UserAvatar = () => {
   const { data } = useSession();
   const { logoutUser, loading: logoutLoading } = useLogout();
-
+  const [open, setOpen] = React.useState(false);
   const router = useRouter();
 
   return (
-    <Menu>
-      <MenuTrigger className={"cursor-pointer"}>
-        <UserIcon data={data} />
-      </MenuTrigger>
-      <MenuPopup className={"font-inter rounded-2xl"}>
-        <MenuGroup>
-          <MenuItem disabled className={"data-disabled:opacity-90"}>
-            <div className="flex items-center gap-2">
-              <UserIcon data={data} />
-              <div className="min-w-0 flex-1 leading-tight">
-                <h4 className="max-w-28 truncate text-sm font-medium">
-                  {" "}
-                  {data?.user.email || "Product Designer"}{" "}
-                </h4>
-                <motion.div
-                  className={`${data?.user.currentPlan === "pro" ? "text-accent-success" : "text-text-muted"} flex items-center text-xs`}
-                >
-                  {" "}
-                  {data?.user.currentPlan === "pro"
-                    ? "Premium Plan"
-                    : "Free Plan"}{" "}
-                </motion.div>
+    <>
+      <Menu>
+        <MenuTrigger className={"cursor-pointer"}>
+          <UserIcon data={data} />
+        </MenuTrigger>
+        <MenuPopup className={"font-inter rounded-2xl"}>
+          <MenuGroup>
+            <MenuItem disabled className={"data-disabled:opacity-90"}>
+              <div className="flex items-center gap-2">
+                <UserIcon data={data} />
+                <div className="min-w-0 flex-1 leading-tight">
+                  <h4 className="max-w-28 truncate text-sm font-medium">
+                    {" "}
+                    {data?.user.email || "Product Designer"}{" "}
+                  </h4>
+                  <motion.div
+                    className={`${data?.user.currentPlan === "pro" ? "text-accent-success" : "text-text-muted"} flex items-center text-xs`}
+                  >
+                    {" "}
+                    {data?.user.currentPlan === "pro"
+                      ? "Premium Plan"
+                      : "Free Plan"}{" "}
+                  </motion.div>
+                </div>
               </div>
-            </div>
-          </MenuItem>
-        </MenuGroup>
-        <MenuSeparator />
-        <MenuGroup>
+            </MenuItem>
+          </MenuGroup>
+          <MenuSeparator />
+          <MenuGroup>
+            <MenuItem
+              className={"text-text-muted rounded-xl px-4"}
+              onClick={() => router.push("/account")}
+            >
+              <User className="text-text-secondary" />
+              Account
+            </MenuItem>
+          </MenuGroup>
           <MenuItem
-            className={"rounded-xl px-4"}
-            onClick={() => router.push("/account")}
+            className={"text-text-muted rounded-xl px-4"}
+            onClick={() => setOpen(true)}
           >
-            <User />
-            Account
+            <CircleFadingArrowUpIcon className="text-text-secondary" />
+            Upgrade
           </MenuItem>
-        </MenuGroup>
-        <MenuItem
-          className={"rounded-xl px-4"}
-          onClick={() => router.push("/upgrade")}
-        >
-          <CircleFadingArrowUpIcon className="text-accent-success" />
-          Upgrade
-        </MenuItem>
-        <MenuSeparator />
-        <MenuItem
-          disabled={logoutLoading}
-          onClick={logoutUser}
-          variant="destructive"
-          className={"rounded-xl px-4"}
-        >
-          {logoutLoading ? <Spinner /> : <TrashIcon aria-hidden="true" />}
-          Logout
-        </MenuItem>
-      </MenuPopup>
-    </Menu>
+          <MenuSeparator />
+          <MenuItem
+            disabled={logoutLoading}
+            onClick={logoutUser}
+            variant="destructive"
+            className={"rounded-xl px-4"}
+          >
+            {logoutLoading ? <Spinner /> : <TrashIcon aria-hidden="true" />}
+            Logout
+          </MenuItem>
+        </MenuPopup>
+      </Menu>
+      <Upgrade open={open} setOpen={setOpen} key={"upgrade-dialog"} />
+    </>
   );
 };
 

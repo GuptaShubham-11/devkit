@@ -73,5 +73,23 @@ export const serverEnv = {
     "NEXT_PUBLIC_LOGO_DEV_KEY"
   ),
 
+  // DODO PAYMENTS
+  DODO_PAYMENTS_API_KEY: required(
+    process.env.DODO_PAYMENTS_API_KEY,
+    "DODO_PAYMENTS_API_KEY"
+  ),
+  DODO_WEBHOOK_SECRET: required(
+    process.env.DODO_WEBHOOK_SECRET,
+    "DODO_WEBHOOK_SECRET"
+  ),
+  DODO_PAYMENTS_ENVIRONMENT: required(
+    process.env.DODO_PAYMENTS_ENVIRONMENT,
+    "DODO_PAYMENTS_ENVIRONMENT"
+  ),
+  DODO_PAYMENTS_RETURN_URL: required(
+    process.env.DODO_PAYMENTS_RETURN_URL,
+    "DODO_PAYMENTS_RETURN_URL"
+  ),
+
   ROLE: process.env.ROLE || "admin",
 };
