@@ -94,9 +94,7 @@ export function extractPaymentFields(
 
   return {
     eventType: payload?.type || "",
-
     paymentId: data.payment_id || "",
-
     checkoutSessionId: data.checkout_session_id || undefined,
 
     /**
@@ -108,13 +106,9 @@ export function extractPaymentFields(
      * USD → cents
      */
     amount: Number(data.total_amount || 0),
-
     currency: data.currency || "USD",
-
     status: data.status || "succeeded",
-
     invoiceUrl: data.invoice_url || undefined,
-
     metadata: data.metadata || {},
   };
 }

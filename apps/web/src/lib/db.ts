@@ -17,7 +17,7 @@ export async function connectToDatabase() {
     const opts = {
       bufferCommands: true,
       maxPoolSize: 10,
-      dbName: "devkit",
+      dbName: serverEnv.DATABASE_NAME || "devkit-local",
     };
 
     mongoose

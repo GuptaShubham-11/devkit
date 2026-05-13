@@ -57,9 +57,9 @@ export async function addCredits(params: {
       // Update cached balance
       const updated = await User.findByIdAndUpdate(
         userId,
-        { $inc: { creditBalance: credits } },
+        { $inc: { creditBalance: credits }, $set: { currentPlan: "pro" } },
         { new: true, session }
-      ).select("_id creditBalance");
+      ).select("_id creditBalance, currentPlan");
 
       if (!updated) {
         throw new Error("User not found while adding credits");

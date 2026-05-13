@@ -7,13 +7,9 @@ import { useRouter } from "next/navigation";
 import {
   DiamondPlusIcon,
   HatGlassesIcon,
-  Layers2,
   Layers2Icon,
-  LayersIcon,
   LayoutDashboardIcon,
   MenuIcon,
-  PlusIcon,
-  ShieldCheck,
 } from "lucide-react";
 
 import { Button, cn, Menu, MenuItem, MenuPopup, MenuTrigger } from "@repo/ui";

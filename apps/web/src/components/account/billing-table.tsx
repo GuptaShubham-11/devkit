@@ -56,7 +56,7 @@ type BillingItem = {
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "paid":
+    case "succeeded":
       return "bg-emerald-500";
 
     case "failed":
@@ -190,31 +190,21 @@ export function BillingTable() {
 
     queryFn: async ({ queryKey }) => {
       const [, q] = queryKey;
-
       const qs = convertQueryToString(q as typeof query);
-
       const res = await http.get(`/payment/billing?${qs}`);
-
       return res.data;
     },
 
     staleTime: 1000 * 60 * 2,
-
     gcTime: 1000 * 60 * 10,
-
     refetchOnWindowFocus: false,
-
     placeholderData: keepPreviousData,
   });
 
   const items = data?.items ?? [];
-
   const pagination = data?.pagination;
-
   const totalPages = pagination?.totalPages ?? 1;
-
   const pageIndex = Math.floor(query.offset / query.limit);
-
   const [sorting, setSorting] = useState<SortingState>([
     {
       desc: true,
@@ -224,13 +214,9 @@ export function BillingTable() {
 
   const table = useReactTable({
     columns,
-
     data: items,
-
     enableSortingRemoval: false,
-
     getCoreRowModel: getCoreRowModel(),
-
     getSortedRowModel: getSortedRowModel(),
 
     onPaginationChange: (updater) => {
@@ -272,8 +258,8 @@ export function BillingTable() {
 
   return (
     <CardFrame
-      className={`bg-surface-primary w-full ${
-        isFetching ? "opacity-60" : "opacity-100"
+      className={`bg-surface-primary ${
+        isFetching ? "opacity-70" : "opacity-100"
       } `}
     >
       <Table variant="card" className="table-fixed">

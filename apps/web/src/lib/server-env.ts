@@ -11,6 +11,7 @@ function required(value: string | undefined, key: string) {
 export const serverEnv = {
   // DATABASE
   MONGODB_URI: required(process.env.MONGODB_URI, "MONGODB_URI"),
+  DATABASE_NAME: required(process.env.DATABASE_NAME, "DATABASE_NAME"),
 
   // EMAIL
   EMAIL_USER: required(process.env.EMAIL_USER, "EMAIL_USER"),

@@ -60,10 +60,6 @@ export function ViewTemplate({
   const router = useRouter();
   const canNotUse = template.isPro && session?.user.currentPlan === "free";
 
-  // free free
-  // pro free pro
-  console.log(canNotUse, template.isPro, session?.user.currentPlan);
-
   const notloggedIn = status == "unauthenticated";
 
   const installCommand = `devkit add ${template.slug} app-sample`;
