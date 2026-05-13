@@ -1,17 +1,29 @@
 "use client";
 
+import { useEffect } from "react";
+
+import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+
 import { useQuery } from "@tanstack/react-query";
 
 import { Spinner, useIsMobile } from "@repo/ui";
 
 import { Dashboard } from "@/components/dashboard/dashboard";
-import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
+import { useStatus } from "@/hooks/payment/useStatus";
 import { http } from "@/lib/http";
 
 // import { charts } from "@/mock-data/charts";
 
 export default function DashboardPage() {
   const isMobile = useIsMobile();
+
+  const searchParams = useSearchParams();
+  const paymentId = searchParams.get("payment_id");
+  const paymentStatus = searchParams.get("status");
+
+  const { update } = useSession();
+  const { status, loading: statusLoading } = useStatus();
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["dashboard"],
@@ -24,6 +36,23 @@ export default function DashboardPage() {
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
   });
+
+  // payment sync
+  useEffect(() => {
+    if (!paymentId || paymentStatus !== "succeeded") {
+      return;
+    }
+
+    const updatePayment = async () => {
+      const response = await status(paymentId);
+
+      if (response?.data?.paid) {
+        update();
+      }
+    };
+
+    updatePayment();
+  }, [paymentId, paymentStatus, update]);
 
   if (isLoading) {
     return (
