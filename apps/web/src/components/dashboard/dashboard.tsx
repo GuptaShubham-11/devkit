@@ -4,7 +4,10 @@ import {
   BadgeIndianRupee,
   ChartNoAxesCombinedIcon,
   ClockCheckIcon,
+  CreditCardIcon,
   DownloadIcon,
+  HistoryIcon,
+  LaptopMinimalCheckIcon,
   MousePointerClickIcon,
   PercentIcon,
   Tally5Icon,
@@ -88,7 +91,7 @@ export const Dashboard = ({
     >
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <DataCard
-          icon={<BadgeIndianRupee className="text-brand-primary size-7" />}
+          icon={<CreditCardIcon className="text-brand-primary size-7" />}
           title="Credit Balance"
           value={overview.creditBalance}
         />
@@ -98,12 +101,14 @@ export const Dashboard = ({
           value={overview.totalInstalls.toString().padStart(2, "0")}
         />
         <DataCard
-          icon={<PercentIcon className="text-accent-warning size-7" />}
+          icon={
+            <LaptopMinimalCheckIcon className="text-accent-warning size-7" />
+          }
           title="Success Rate"
           value={`${overview.successRate}%`}
         />
         <DataCard
-          icon={<ClockCheckIcon className="text-accent-success size-7" />}
+          icon={<HistoryIcon className="text-accent-success size-7" />}
           title="Average Duration"
           value={formattedDuration}
         />
@@ -171,7 +176,7 @@ const DataCard = ({
 }) => {
   return (
     <div className="bg-surface-primary grid items-center gap-2 rounded-2xl border border-t-[1.25px] p-4 sm:p-6">
-      <span className="text-text-muted text-xs font-thin sm:text-sm">
+      <span className="text-text-muted text-xs font-medium tracking-wide sm:text-sm">
         {title}
       </span>
       <span className="text-text-primary flex items-center gap-2 text-xl font-semibold sm:text-3xl">

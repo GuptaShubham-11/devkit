@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RotateCcwKeyIcon } from "lucide-react";
 
 import { UpdateProfileData, updateProfileSchema } from "@repo/shared";
 import {
@@ -29,7 +28,6 @@ import { FileUpload } from "@/components/core/file-upload";
 import { useUpdateProfile } from "@/hooks/user/use-update-profile";
 import { mapRHFErrorsToFormErrors } from "@/lib/form-error";
 import { generateRandom } from "@/lib/generate-random";
-import { http } from "@/lib/http";
 
 export function EditProfile({
   open,
@@ -51,7 +49,7 @@ export function EditProfile({
   } = useForm<UpdateProfileData>({
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
-      profileImage: user?.profileImage,
+      // profileImage: user?.profileImage,
       bio: user?.bio,
       website: user?.website,
       githubUsername: user?.githubUsername,
@@ -70,17 +68,16 @@ export function EditProfile({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogPopup className="sm:max-w-sm">
-        <DialogHeader className="gap-0 px-10">
-          <DialogTitle className={"text-xl font-bold"}>
-            Edit profile
-          </DialogTitle>
-          <DialogDescription>Update your account details.</DialogDescription>
+      <DialogPopup className="font-inter sm:max-w-sm">
+        <DialogHeader className="gap-1">
+          <DialogTitle className={"font-semibold"}>Edit profile</DialogTitle>
+          <DialogDescription>
+            Update your account details here.
+          </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="h-72">
-          <Form errors={mapRHFErrorsToFormErrors(errors)} className="contents">
-            <DialogPanel className="grid gap-4 px-10">
-              <Field name="profileImage">
+        <Form errors={mapRHFErrorsToFormErrors(errors)} className="contents">
+          <DialogPanel className="grid gap-4">
+            {/* <Field name="profileImage">
                 <FieldLabel>Profile Image</FieldLabel>
 
                 <FileUpload
@@ -90,33 +87,27 @@ export function EditProfile({
                 />
 
                 <FieldError />
-              </Field>
+              </Field> */}
 
-              <Field name="name">
-                <FieldLabel>Name</FieldLabel>
-                <Input {...register("name")} placeholder="Alice" />
-                <FieldError />
-              </Field>
+            <Field name="bio">
+              <FieldLabel>Bio</FieldLabel>
+              <Input {...register("bio")} placeholder="Short bio..." />
+              <FieldError />
+            </Field>
 
-              <Field name="bio">
-                <FieldLabel>Bio</FieldLabel>
-                <Input {...register("bio")} placeholder="Short bio..." />
-                <FieldError />
-              </Field>
+            <Field name="website">
+              <FieldLabel>Website</FieldLabel>
+              <Input {...register("website")} placeholder="https://..." />
+              <FieldError />
+            </Field>
 
-              <Field name="website">
-                <FieldLabel>Website</FieldLabel>
-                <Input {...register("website")} placeholder="https://..." />
-                <FieldError />
-              </Field>
+            <Field name="githubUsername">
+              <FieldLabel>GitHub Username</FieldLabel>
+              <Input {...register("githubUsername")} placeholder="username" />
+              <FieldError />
+            </Field>
 
-              <Field name="githubUsername">
-                <FieldLabel>GitHub Username</FieldLabel>
-                <Input {...register("githubUsername")} placeholder="username" />
-                <FieldError />
-              </Field>
-
-              {/* <Field name="">
+            {/* <Field name="">
                                 <FieldLabel>Private Key</FieldLabel>
                                 <div className="relative w-full">
                                     <Input {...register("privateKey")} placeholder="••••••••" />
@@ -131,9 +122,8 @@ export function EditProfile({
                                     </Button>
                                 </div>
                             </Field> */}
-            </DialogPanel>
-          </Form>
-        </ScrollArea>
+          </DialogPanel>
+        </Form>
 
         <DialogFooter>
           <Button disabled={loading} onClick={() => handleSubmit(onSubmit)()}>
