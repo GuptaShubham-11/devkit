@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import { useQuery } from "@tanstack/react-query";
 import {
   ActivityIcon,
   CheckIcon,
@@ -14,42 +13,29 @@ import {
   UserCogIcon,
 } from "lucide-react";
 
-import { Button, cn, Spinner, useCopyToClipboard } from "@repo/ui";
+import { Button, cn, useCopyToClipboard } from "@repo/ui";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@repo/ui";
 
 import { formatDate } from "@/lib/formate-date";
-import { http } from "@/lib/http";
+import { useUser } from "@/store/user";
 
 import { Container } from "../core/container";
 import { UserIcon } from "../core/user-avatar";
 import { BillingTable } from "./billing-table";
 import { ChangePassword } from "./change-password";
-import { CreditDetail } from "./credit-detail";
 import { DeleteAccount } from "./delete-account";
 import { EditProfile } from "./edit-account";
 
 export function Account() {
   const [editProfile, setEditProfile] = useState(false);
-  const [userData, setUserData] = useState<any>(null);
-
-  const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      const res = await http.get(`/user`);
-      setUserData(res.data.user);
-      return res.data.user;
-    },
-    staleTime: 1000 * 60 * 2,
-    refetchOnWindowFocus: false,
-  });
-
-  if (isLoading) return <Spinner />;
+  const userData: any = useUser();
+  const setUser = useUser();
 
   return (
     <Container
       className={cn(
-        "mt-20 mb-20 grid items-start gap-6 px-4 sm:px-6",
-        isFetching && "pointer-events-none opacity-70"
+        "mt-20 mb-20 grid items-start gap-6 px-4 sm:px-6"
+        // isFetching && "pointer-events-none opacity-70"
       )}
     >
       <Tabs
@@ -111,7 +97,6 @@ export function Account() {
                     size="sm"
                     onClick={() => {
                       setEditProfile(true);
-                      setUserData(data);
                     }}
                     className="border-surface-secondary bg-bg-secondary border px-4"
                   >
@@ -234,13 +219,12 @@ export function Account() {
         open={editProfile}
         onOpenChange={setEditProfile}
         user={userData}
-        onSuccess={() => refetch()}
       />
     </Container>
   );
 }
 
-function Row({ label, value }: { label: string; value: any }) {
+function Row({ label, value }: { label?: string; value: any }) {
   const { isCopied, copyToClipboard } = useCopyToClipboard();
   return (
     <div className="hover:bg-surface-secondary/40 grid grid-cols-[100px_1fr] items-center px-4 py-3 transition duration-200 sm:grid-cols-[180px_1fr]">

@@ -7,12 +7,13 @@ import { Spinner, useIsMobile } from "@repo/ui";
 import { Dashboard } from "@/components/dashboard/dashboard";
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
 import { http } from "@/lib/http";
+import { useSetUser } from "@/store/user";
 
 // import { charts } from "@/mock-data/charts";
 
 export default function DashboardPage() {
   const isMobile = useIsMobile();
-
+  const setUser = useSetUser();
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["dashboard"],
     queryFn: async () => {
@@ -21,6 +22,19 @@ export default function DashboardPage() {
 
       return res.data.data;
     },
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+
+    queryFn: async () => {
+      const res = await http.get("/user");
+      setUser(res.data.user);
+      return res.data.user;
+    },
+
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
   });

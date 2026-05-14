@@ -2,7 +2,6 @@
 
 import React from "react";
 
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { motion } from "framer-motion";
@@ -18,18 +17,18 @@ import {
   MenuItem,
   MenuPopup,
   MenuSeparator,
-  MenuShortcut,
   MenuTrigger,
   Spinner,
 } from "@repo/ui";
 
 import { useLogout } from "@/hooks";
+import { useUser } from "@/store/user";
 
 import { Upgrade } from "../account/upgrade";
 import { PremiumUserAccess } from "./premium-user-access";
 
 export const UserAvatar = () => {
-  const { data } = useSession();
+  const data = useUser();
   const { logoutUser, loading: logoutLoading } = useLogout();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
@@ -48,13 +47,13 @@ export const UserAvatar = () => {
                 <div className="min-w-0 flex-1 leading-tight">
                   <h4 className="max-w-28 truncate text-sm font-medium">
                     {" "}
-                    {data?.user.email || "Product Designer"}{" "}
+                    {data?.email || "Product Designer"}{" "}
                   </h4>
                   <motion.div
-                    className={`${data?.user.currentPlan === "pro" ? "text-accent-success" : "text-text-muted"} flex items-center text-xs`}
+                    className={`${data?.currentPlan === "pro" ? "text-accent-success" : "text-text-muted"} flex items-center text-xs`}
                   >
                     {" "}
-                    {data?.user.currentPlan === "pro"
+                    {data?.currentPlan === "pro"
                       ? "Premium Plan"
                       : "Free Plan"}{" "}
                   </motion.div>
@@ -122,7 +121,7 @@ export const UserIcon = ({
       >
         <AvatarImage
           alt="User"
-          src={data?.user?.image || fallbackImageUrls[3]}
+          src={data?.profileImage || fallbackImageUrls[3]}
         />
 
         <AvatarFallback

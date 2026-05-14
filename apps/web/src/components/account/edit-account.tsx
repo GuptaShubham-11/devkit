@@ -28,6 +28,7 @@ import { FileUpload } from "@/components/core/file-upload";
 import { useUpdateProfile } from "@/hooks/user/use-update-profile";
 import { mapRHFErrorsToFormErrors } from "@/lib/form-error";
 import { generateRandom } from "@/lib/generate-random";
+import { useSetUser } from "@/store/user";
 
 export function EditProfile({
   open,
@@ -58,12 +59,17 @@ export function EditProfile({
   });
 
   const { loading, update } = useUpdateProfile();
+  const setUser = useSetUser();
 
   const onSubmit = async (user: UpdateProfileData) => {
-    await update(user);
-    onSuccess?.();
-    reset();
-    onOpenChange(false);
+    const res = await update(user);
+
+    if (res) {
+      setUser(res?.data?.user);
+      onSuccess?.();
+      reset();
+      onOpenChange(false);
+    }
   };
 
   return (
