@@ -39,6 +39,7 @@ import {
 } from "@repo/ui";
 
 import { formatDate } from "@/lib/formate-date";
+import { useUser } from "@/store/user";
 
 import { DataIndicator } from "./data-indicator";
 import { Preview } from "./preview";
@@ -54,11 +55,12 @@ export function ViewTemplate({
   open: boolean;
 }) {
   const { copyToClipboard, isCopied } = useCopyToClipboard();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [clicked, setClicked] = React.useState<0 | 1 | 2 | null>(null);
+  const user = useUser();
 
   const router = useRouter();
-  const canNotUse = template.isPro && session?.user.currentPlan === "free";
+  const canNotUse = template.isPro && user?.currentPlan === "free";
 
   const notloggedIn = status == "unauthenticated";
 

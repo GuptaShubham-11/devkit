@@ -2,6 +2,8 @@
 
 import { useSession } from "next-auth/react";
 
+import { useUser } from "@/store/user";
+
 export const PremiumUserAccess = ({
   children,
   fallback = null,
@@ -11,11 +13,12 @@ export const PremiumUserAccess = ({
   fallback?: React.ReactNode;
   loadingFallback?: React.ReactNode;
 }) => {
-  const { data, status } = useSession();
+  const user = useUser();
+  const { status } = useSession();
 
   if (status === "loading") return <>{loadingFallback}</>;
 
-  const isPremiumUser = data?.user?.currentPlan === "pro";
+  const isPremiumUser = user?.currentPlan === "pro";
   if (!isPremiumUser) return <>{fallback}</>;
 
   return <>{children}</>;
