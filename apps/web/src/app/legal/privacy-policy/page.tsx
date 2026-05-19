@@ -1,10 +1,11 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { ArrowLeft } from "lucide-react";
 
-import { Button } from "@repo/ui";
+import { Button, cn } from "@repo/ui";
 
 import { Point } from "@/components/core/point";
 
@@ -48,8 +49,14 @@ const sections = [
 
 export default function PrivacyPage() {
   const router = useRouter();
+  const { status } = useSession();
   return (
-    <main className="text-text-secondary font-inter mx-auto mt-14 mb-12 max-w-3xl px-4 text-sm leading-6">
+    <main
+      className={cn(
+        "text-text-secondary font-inter mx-auto mt-8 mb-12 max-w-3xl px-4 text-sm leading-6",
+        status === "authenticated" && "mt-24"
+      )}
+    >
       <Button
         variant="secondary"
         onClick={() => router.push("/")}
@@ -57,13 +64,13 @@ export default function PrivacyPage() {
         size={"lg"}
       >
         <ArrowLeft />
-        Home
+        Back
       </Button>
 
       <h1 className="text-text-primary mb-2 text-2xl font-semibold">
         Privacy Policy
       </h1>
-      <p className="text-text-muted mb-6 text-xs">
+      <p className="text-text-muted mb-6 text-sm">
         Last updated: March 21, 2026
       </p>
 

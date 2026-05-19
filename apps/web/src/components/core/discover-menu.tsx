@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
+  BadgeQuestionMarkIcon,
   DiamondPlusIcon,
   HatGlassesIcon,
   Layers2Icon,
@@ -53,6 +54,17 @@ export const DiscoverMenu = () => {
           >
             <Layers2Icon className="text-text-secondary size-4" />
             Templates
+          </MenuItem>
+          <MenuItem
+            onClick={() => router.push("/help")}
+            data-active={isActive("/help")}
+            className={cn(
+              "text-text-muted rounded-2xl pl-4",
+              isActive("/help") && "bg-surface-secondary text-text-primary"
+            )}
+          >
+            <BadgeQuestionMarkIcon className="text-text-secondary size-4" />
+            Help
           </MenuItem>
           <AdminAccess>
             <MenuItem

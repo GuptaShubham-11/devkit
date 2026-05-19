@@ -46,7 +46,12 @@ export const GridTemplate = () => {
     return (
       <div className="grid gap-4">
         {status === "unauthenticated" && <Header />}
-        <h3 className="text-text-secondary relative text-2xl font-semibold">
+        <h3
+          className={cn(
+            "text-text-secondary relative text-2xl font-semibold",
+            status === "authenticated" ? "mt-20" : "mt-5"
+          )}
+        >
           <div className="bg-accent-primary absolute -left-2 -z-10 h-8 w-35 -rotate-1 opacity-70" />
           Templates
         </h3>
