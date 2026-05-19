@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    sendEmail({
+    await sendEmail({
       emailAddress: email.toLowerCase(),
       emailSubject: "Devkit - Verify Your Account",
       htmlText: emailVerificationHtml(otp),
