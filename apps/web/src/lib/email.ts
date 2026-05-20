@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 import { serverEnv } from "./server-env";
 
-export function sendEmail({
+export async function sendEmail({
   emailAddress,
   emailSubject,
   htmlText,
@@ -14,26 +14,30 @@ export function sendEmail({
   fromMail?: string;
 }) {
   try {
-    const mailConfig = {
+    const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: serverEnv.EMAIL_USER,
         pass: serverEnv.APP_PASSWORD,
       },
-    };
+    });
 
-    const transporter = nodemailer.createTransport(mailConfig);
-
-    const mailDetails = {
+    await transporter.sendMail({
       from: `Devkit <${fromMail}>`,
       to: emailAddress,
       subject: emailSubject,
       html: htmlText,
-    };
+    });
 
-    transporter.sendMail(mailDetails);
+    return {
+      success: true,
+    };
   } catch (error) {
-    // console.error('Nodemailer send mail error', error);
-    return error;
+    console.error("Send email error:", error);
+
+    return {
+      success: false,
+      error,
+    };
   }
 }
