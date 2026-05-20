@@ -36,23 +36,6 @@ const footerLinks = [
     ],
   },
   {
-    title: "Resources",
-    links: [
-      {
-        label: "Guides",
-        href: "/guides",
-      },
-      {
-        label: "Changelog",
-        href: "/changelog",
-      },
-      {
-        label: "Help",
-        href: "/help",
-      },
-    ],
-  },
-  {
     title: "Company",
     links: [
       {
@@ -71,6 +54,10 @@ const footerLinks = [
         label: "About",
         href: "/about",
       },
+      {
+        label: "Need Help?",
+        href: "mailto:support@developerkit.pro",
+      },
     ],
   },
   {
@@ -81,16 +68,25 @@ const footerLinks = [
         href: "https://github.com/GuptaShubham-11/devkit",
       },
       {
-        label: "Status",
-        href: "/status",
+        label: "Discord",
+        href: "https://discord.com",
       },
       {
-        label: "Community",
-        href: "/community",
+        label: "Get Started",
+        href: "/auth/login",
+      },
+    ],
+  },
+  {
+    title: "Socials",
+    links: [
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/guptashubham11",
       },
       {
-        label: "Roadmap",
-        href: "/roadmap",
+        label: "Twitter",
+        href: "https://x.com/GuptaShubham91",
       },
     ],
   },
@@ -106,36 +102,27 @@ export const Footer = () => {
           {/* brand */}
           <div className="max-w-md">
             <div className="flex items-center gap-1">
-              <img src="/logo.svg" alt="devkit" className="h-16 w-16" />
+              <img src="/logo.svg" alt="devkit" className="h-14 w-14" />
 
-              <div>
-                <span className="text-text-primary text-2xl tracking-tight">
+              <div className="flex flex-col items-start">
+                <span className="text-text-primary text-lg tracking-wide">
                   devkit
                 </span>
 
                 <p className="text-text-muted max-w-sm text-sm leading-relaxed">
-                  Build products
+                  build products
                 </p>
               </div>
             </div>
 
-            {/* socials */}
-            <div className="mt-2 flex items-center justify-center gap-2 border-t border-b">
-              {[GithubIcon, TwitterIcon, LinkedinIcon].map((Icon, index) => (
-                <Button key={index} variant="ghost" size="icon-lg">
-                  <Icon className="text-text-muted fill-text-muted size-4 transition-all duration-300" />
-                </Button>
-              ))}
-            </div>
-
-            <div className="text-text-primary mt-4 mb-4 max-w-sm text-center text-sm leading-relaxed text-balance">
+            <div className="text-text-primary mt-4 mb-4 max-w-sm border-t border-b text-center text-sm leading-relaxed text-balance">
               Our mission by the end of this year is to connect thousands of
               developers build faster.
             </div>
           </div>
 
           {/* links */}
-          <div className="grid flex-1 grid-cols-2 gap-x-10 gap-y-12 sm:grid-cols-4">
+          <div className="grid flex-1 grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
             {footerLinks.map((section) => (
               <div key={section.title}>
                 <h3 className="text-text-primary text-base font-semibold">
@@ -161,7 +148,15 @@ export const Footer = () => {
 
         {/* bottom */}
         <div className="text-text-muted flex flex-col items-center justify-end gap-5 pt-8 text-sm sm:flex-row">
-          <p>© 2026 Devkit. Crafted for developers.</p>
+          <a
+            href="mailto:support@developerkit.pro"
+            className="hover:text-text-secondary"
+          >
+            Need Help? (support@developerkit.pro)
+          </a>
+
+          {/* support */}
+          <p>© 2026 Devkit All Rights Reserved.</p>
         </div>
       </div>
     </footer>

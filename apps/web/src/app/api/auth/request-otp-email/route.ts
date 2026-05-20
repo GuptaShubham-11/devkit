@@ -52,6 +52,7 @@ export async function PATCH(request: NextRequest) {
       htmlText: isReseting
         ? emailResetPasswordHtml(otp)
         : emailVerificationHtml(otp),
+      fromMail: "hello@developerkit.pro",
     });
 
     return NextResponse.json(

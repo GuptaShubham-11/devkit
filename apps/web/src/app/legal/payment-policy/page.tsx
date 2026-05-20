@@ -95,7 +95,7 @@ export default function PaymentPolicyPage() {
 
         <Point title="9. Contact">
           For billing-related inquiries, contact us at{" "}
-          <span className="text-text-primary">billing@devkit.com</span>.
+          <span className="text-text-primary">billing@developerkit.pro</span>.
         </Point>
       </section>
     </main>
