@@ -105,7 +105,7 @@ export default function TermsPage() {
 
         <Point title="9. Contact">
           For questions regarding these Terms, contact us at{" "}
-          <span className="text-text-primary">support@devkit.com</span>.
+          <span className="text-text-primary">support@developerkit.pro</span>.
         </Point>
       </section>
     </main>

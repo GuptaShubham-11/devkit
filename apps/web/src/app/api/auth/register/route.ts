@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
       emailAddress: email.toLowerCase(),
       emailSubject: "Devkit - Verify Your Account",
       htmlText: emailVerificationHtml(otp),
+      fromMail: "hello@developerkit.pro",
     });
 
     return NextResponse.json(

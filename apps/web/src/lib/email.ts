@@ -6,10 +6,12 @@ export function sendEmail({
   emailAddress,
   emailSubject,
   htmlText,
+  fromMail = "hello@developerkit.pro",
 }: {
   emailAddress: string;
   emailSubject: string;
   htmlText: string;
+  fromMail?: string;
 }) {
   try {
     const mailConfig = {
@@ -23,7 +25,7 @@ export function sendEmail({
     const transporter = nodemailer.createTransport(mailConfig);
 
     const mailDetails = {
-      from: "Devkit",
+      from: `Devkit <${fromMail}>`,
       to: emailAddress,
       subject: emailSubject,
       html: htmlText,

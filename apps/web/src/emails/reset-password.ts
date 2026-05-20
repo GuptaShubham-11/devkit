@@ -1,21 +1,63 @@
 export function emailResetPasswordHtml(otp: string) {
   return `
-  <div style="font-family:sans-serif;background:#f8fafc;padding:20px;text-align:center">
+   <div style="background:#f8fafc;padding:40px 16px;font-family:Inter,Arial,sans-serif">
     
-    <div style="background:#fff;padding:24px;border-radius:8px;max-width:400px;margin:auto;border:1px solid #e2e8f0">
-      
-      <h2 style="margin-bottom:16px;color:#334155">Reset Password</h2>
+    <div style="
+      max-width:420px;
+      margin:0 auto;
+    ">
 
-      <div style="font-size:22px;font-weight:bold;letter-spacing:4px;background:#f1f5f9;padding:12px 20px;border-radius:6px;display:inline-block;margin-bottom:16px">
-        ${otp}
-      </div>
+      <h2 style="
+        margin:0 0 6px;
+        color:#0f172a;
+        font-size:24px;
+        font-weight:600;
+      ">
+        Reset your password
+      </h2>
 
-      <p style="font-size:14px;color:#64748b;margin-bottom:8px">
-        Expires in 15 minutes
+      <p style="
+        margin:0 0 12px;
+        color:#475569;
+        font-size:14px;
+        line-height:18px;
+      ">
+        Use the verification code below to continue resetting your password.
       </p>
 
-      <p style="font-size:12px;color:#94a3b8">
-        If you didn’t request this, ignore this email
+      <div style="text-align:center;margin:28px 0">
+
+        <div style="
+          display:inline-block;
+          padding:14px 24px;
+          background:#f1f5f9;
+          border-radius:8px;
+          font-size:30px;
+          font-weight:700;
+          letter-spacing:8px;
+          color:#0f172a;
+        ">
+          ${otp}
+        </div>
+
+      </div>
+
+      <p style="
+        margin:24px 0 3px;
+        color:#64748b;
+        font-size:13px;
+        line-height:22px;
+      ">
+        This code will expire in 15 minutes.
+      </p>
+
+      <p style="
+        margin:0;
+        color:#94a3b8;
+        font-size:12px;
+        line-height:20px;
+      ">
+        If you didn’t request this password reset, you can safely ignore this email.
       </p>
 
     </div>

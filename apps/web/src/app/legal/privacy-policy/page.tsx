@@ -91,7 +91,7 @@ export default function PrivacyPage() {
 
         <Point title="8. Contact Us">
           For privacy-related inquiries, contact us at{" "}
-          <span className="text-text-primary">privacy@devkit.com</span>.
+          <span className="text-text-primary">privacy@developerkit.pro</span>.
         </Point>
       </section>
     </main>
