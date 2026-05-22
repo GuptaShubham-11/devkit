@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 
 import { clientEnv } from "@/lib/client-env";
+import { useUser } from "@/store/user";
 
 export const AdminAccess = ({
   children,
@@ -13,14 +14,15 @@ export const AdminAccess = ({
   fallback?: React.ReactNode;
   loadingFallback?: React.ReactNode;
 }) => {
-  const { data, status } = useSession();
+  const { status } = useSession();
+  const user = useUser();
 
   if (status === "loading") {
     return <>{loadingFallback}</>;
   }
 
-  const userRole = data?.user?.isRole;
-  const adminRole = clientEnv.ROLE! || "test";
+  const userRole = user?.isRole;
+  const adminRole = clientEnv.ROLE! || "sUpErAdMiN";
 
   if (!userRole || userRole !== adminRole) {
     return <>{fallback}</>;

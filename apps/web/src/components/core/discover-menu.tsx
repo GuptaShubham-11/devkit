@@ -67,7 +67,7 @@ export const DiscoverMenu = () => {
             Help
           </MenuItem>
           <AdminAccess>
-            <MenuItem
+            {/* <MenuItem
               onClick={() => router.push("/admin/a-d")}
               data-active={isActive("/admin/a-d")}
               className={cn(
@@ -78,7 +78,7 @@ export const DiscoverMenu = () => {
             >
               <HatGlassesIcon className="text-text-secondary size-4" />
               Admin
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem
               onClick={() => setDialogOpen(true)}
               className={cn("text-text-muted rounded-2xl pl-4")}
