@@ -5,6 +5,8 @@ export interface Template {
   slug: string;
   description: string;
 
+  token: string;
+
   stack: string[];
   tags: string[];
   features: string[];

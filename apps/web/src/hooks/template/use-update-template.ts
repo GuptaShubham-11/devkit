@@ -12,7 +12,7 @@ export const useUpdateTemplate = () => {
     try {
       setLoading(true);
 
-      const response = await http.patch(`admin/template/${templateId}`, data);
+      const response = await http.patch(`/admin/template/${templateId}`, data);
 
       toastManager.add({
         title: "Success! Update template",

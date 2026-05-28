@@ -154,6 +154,7 @@ export async function GET(request: NextRequest) {
     // Parallel queries
     const [templates, total] = await Promise.all([
       Template.find(conditions)
+        .select("-token -repoUrl")
         .sort(sortObject)
         .skip(offset)
         .limit(limit)

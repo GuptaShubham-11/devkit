@@ -4,6 +4,7 @@ export const templateData: Template[] = [
   {
     _id: "1",
     name: "SaaS Starter",
+    token: "",
     slug: "saas-starter",
     description:
       "Production-ready SaaS starter with authentication and dashboard.",
@@ -54,6 +55,7 @@ export const templateData: Template[] = [
   {
     _id: "2",
     name: "Ecommerce UI",
+    token: "",
     slug: "ecommerce-ui",
     description: "Modern ecommerce frontend with cart and checkout.",
     stack: ["React", "Vite", "TypeScript", "Tailwind", "Zustand"],
@@ -98,6 +100,7 @@ export const templateData: Template[] = [
   {
     _id: "3",
     name: "Blog Platform",
+    token: "",
     slug: "blog-platform",
     description: "Full blog platform with markdown support.",
     stack: ["Next.js", "MongoDB", "TypeScript", "Tailwind", "Express"],
@@ -142,6 +145,7 @@ export const templateData: Template[] = [
   {
     _id: "4",
     name: "Kanban Board",
+    token: "",
     slug: "kanban-board",
     description: "Task management board with drag and drop.",
     stack: ["React", "TypeScript", "Zustand", "Tailwind", "Node.js"],
@@ -191,6 +195,7 @@ export const templateData: Template[] = [
   {
     _id: "5",
     name: "Portfolio Site",
+    token: "",
     slug: "portfolio-site",
     description: "Minimal portfolio with animations.",
     stack: ["React", "Vite", "Tailwind", "Framer Motion", "TypeScript"],
@@ -235,6 +240,7 @@ export const templateData: Template[] = [
   {
     _id: "6",
     name: "Auth System",
+    token: "",
     slug: "auth-system",
     description: "Complete auth system with OTP and JWT.",
     stack: ["Node.js", "Express", "MongoDB", "TypeScript", "JWT"],
@@ -279,6 +285,7 @@ export const templateData: Template[] = [
   {
     _id: "7",
     name: "Admin Dashboard",
+    token: "",
     slug: "admin-dashboard",
     description: "Powerful admin panel with charts.",
     stack: ["React", "Chart.js", "Tailwind", "TypeScript", "Node.js"],
@@ -328,6 +335,7 @@ export const templateData: Template[] = [
   {
     _id: "8",
     name: "Landing Page",
+    token: "",
     slug: "landing-page",
     description: "High-converting modern landing page.",
     stack: ["React", "Tailwind", "TypeScript", "Framer Motion", "Vite"],
@@ -372,6 +380,7 @@ export const templateData: Template[] = [
   {
     _id: "9",
     name: "Chat App",
+    token: "",
     slug: "chat-app",
     description: "Realtime chat application with sockets.",
     stack: ["React", "Node.js", "Socket.io", "TypeScript", "MongoDB"],
@@ -416,6 +425,7 @@ export const templateData: Template[] = [
   {
     _id: "10",
     name: "AI Dashboard",
+    token: "",
     slug: "ai-dashboard",
     description: "AI-powered analytics dashboard.",
     stack: ["React", "Next.js", "OpenAI", "TypeScript", "Tailwind"],
