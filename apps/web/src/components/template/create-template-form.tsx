@@ -45,6 +45,7 @@ export const CreateTemplateForm = ({ open, setOpen }: CreateTemplateProps) => {
       name: "",
       slug: "",
       description: "",
+      token: "",
       stack: [],
       tags: [],
       features: [],
@@ -153,6 +154,15 @@ export const CreateTemplateForm = ({ open, setOpen }: CreateTemplateProps) => {
                 <Textarea
                   placeholder="Next.js SaaS Starter for your business"
                   {...register("description")}
+                />
+                <FieldError />
+              </Field>
+
+              <Field name="token">
+                <FieldLabel>Token</FieldLabel>
+                <Input
+                  placeholder="@E4df3kj95i86hd4gdjg#"
+                  {...register("token")}
                 />
                 <FieldError />
               </Field>

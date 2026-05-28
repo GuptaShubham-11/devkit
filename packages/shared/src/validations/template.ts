@@ -23,6 +23,12 @@ const baseTemplateSchema = z.object({
     .min(20, "Description should be at least 20 characters")
     .max(500),
 
+  token: z
+    .string()
+    .trim()
+    .min(1, "Token is required")
+    .max(100, "Token too long"),
+
   creditCost: z
     .number({ error: "Credit cost must be a number" })
     .min(0, "Credit cost cannot be negative")

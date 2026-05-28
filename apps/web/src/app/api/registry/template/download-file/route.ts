@@ -68,7 +68,7 @@ export async function POST(request: Request) {
     user.shortLivedToken = undefined;
     user.shortLivedTokenExpiry = undefined;
 
-    const files = await collectFiles(template.repoUrl);
+    const files = await collectFiles(template.repoUrl, template.token);
     if (!files.length) {
       return NextResponse.json({ error: "Template is empty" }, { status: 404 });
     }

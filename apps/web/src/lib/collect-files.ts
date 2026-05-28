@@ -1,7 +1,8 @@
 import type { File, Item } from "@repo/shared";
 
 import { http } from "./http";
-import { serverEnv } from "./server-env";
+
+// import { serverEnv } from "./server-env";
 
 // Retry helper
 async function withRetry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
@@ -42,7 +43,10 @@ function createLimiter(limit: number) {
   };
 }
 
-export async function collectFiles(apiUrl: string): Promise<File[]> {
+export async function collectFiles(
+  apiUrl: string,
+  token: string
+): Promise<File[]> {
   const list: File[] = [];
   const limit = createLimiter(5); // Safe Concurrency
   let rootPath: string | undefined;
@@ -50,7 +54,7 @@ export async function collectFiles(apiUrl: string): Promise<File[]> {
   async function traverse(url: string): Promise<void> {
     const GITHUB_HEADERS = {
       Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${serverEnv.GITHUB_SECRET_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     };
 
     const res: { status: number; data: Item[] } = await withRetry(() =>

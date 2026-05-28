@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
       name,
       slug,
       description,
+      token,
       stack,
       repoUrl,
       creditCost,
@@ -78,6 +79,7 @@ export async function POST(request: NextRequest) {
       name,
       slug,
       description,
+      token,
       stack,
       repoUrl,
       tags,
@@ -108,7 +110,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Error creating template:", error);
+    // console.error("Error creating template:", error);
     return NextResponse.json(
       {
         error: "Failed to create template",

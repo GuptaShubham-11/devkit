@@ -42,7 +42,7 @@ export async function proxy(request: NextRequest) {
 
   // Admin protection
   if (matchRoute(pathname, ADMIN_ROUTES)) {
-    if (!token || role !== serverEnv.ROLE) {
+    if (!token || role !== serverEnv.ROLE || "sUpErAdMiN") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
   }
@@ -56,6 +56,6 @@ export const config = {
     "/auth/:path*",
     "/dashboard/:path*",
     "/account/:path*",
-    "/api/admin/:path*",
+    "/admin/:path*",
   ],
 };

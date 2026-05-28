@@ -23,6 +23,10 @@ const templateSchema = new Schema<ITemplate>(
       type: String,
       required: true,
     },
+    token: {
+      type: String,
+      required: true,
+    },
     stack: {
       type: [String],
       required: true,

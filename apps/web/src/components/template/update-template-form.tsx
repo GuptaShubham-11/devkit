@@ -81,8 +81,6 @@ export const UpdateTemplateForm = ({
   }, [isSponsored, setValue]);
 
   const onSubmit = async (data: CreateTemplateInput) => {
-    console.log(data);
-
     if (loading) return;
 
     const response = await update(template._id, data);
@@ -118,6 +116,12 @@ export const UpdateTemplateForm = ({
               <Field name="description">
                 <FieldLabel>Description</FieldLabel>
                 <Textarea {...register("description")} />
+                <FieldError />
+              </Field>
+
+              <Field name="token">
+                <FieldLabel>Token</FieldLabel>
+                <Input {...register("token")} />
                 <FieldError />
               </Field>
 
