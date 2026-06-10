@@ -100,7 +100,7 @@ export function FileUpload({ type, slug, userId, onSuccess }: Props) {
         file,
         fileName: file.name,
         folder,
-        publicKey: clientEnv.IMAGEKIT_URL!,
+        publicKey: clientEnv.IMAGEKIT_PUBLIC_KEY!,
         ...auth,
         onProgress: (e) => {
           if (e.lengthComputable) {
