@@ -1,6 +1,7 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "next-themes";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -13,7 +14,16 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     <SessionProvider refetchOnWindowFocus={true}>
       <QueryClientProvider client={queryClient}>
         <ToastProvider>
-          <AnchoredToastProvider>{children}</AnchoredToastProvider>
+          <AnchoredToastProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </AnchoredToastProvider>
         </ToastProvider>
       </QueryClientProvider>
     </SessionProvider>

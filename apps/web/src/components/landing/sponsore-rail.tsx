@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { BadgeCheckIcon, WindIcon } from "lucide-react";
 
+import { Container } from "../core/container";
 import { SponsoredLogo } from "../template/sponserd-logo";
 
 const sponsors = [
@@ -48,45 +49,40 @@ const sponsors = [
 
 export const SponsoredRail = () => {
   return (
-    <section className="font-inter relative flex flex-col items-center justify-center overflow-hidden px-4 pt-16 pb-20">
-      {/* badge */}
-      <span className="border-surface-secondary text-text-secondary flex items-center gap-2 rounded-full border-y px-4 py-2 text-xs font-medium tracking-wide">
-        <WindIcon className="text-accent-primary size-4" />
+    <Container className="font-inter flex flex-col items-center justify-center overflow-hidden py-6 md:py-12">
+      <span className="text-foreground flex items-center gap-2 rounded-full border-y px-4 py-2 text-xs font-medium tracking-wide text-shadow-2xs">
+        <WindIcon className="size-4 text-blue-500" />
         Wall of sponsor
       </span>
 
       {/* heading */}
       <div className="mt-4 flex max-w-4xl flex-col items-center justify-center text-center">
-        <h2 className="text-text-secondary text-3xl leading-none font-semibold tracking-tight sm:text-4xl md:text-5xl">
+        <h2 className="text-foreground text-3xl leading-none font-semibold tracking-tight sm:text-4xl md:text-5xl">
           Backed by
         </h2>
 
-        <p className="bg-accent-primary text-text-primary mt-5 px-4 py-1 text-sm font-medium tracking-tight">
-          Thanks for sponsoring this product and making it possible.
+        <p className="text-foreground mt-4 bg-blue-500 px-4 py-0.5 text-sm font-medium tracking-tight">
+          Special Thanks for sponsoring this product.
         </p>
       </div>
 
       {/* sponsors */}
-      <div className="relative mt-12 flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-6 p-2">
-        <div className="absolute inset-0 backdrop-blur-xs" />
-        <div className="text-text-secondary absolute top-1/2 left-1/2 z-10 flex -rotate-20 items-center justify-center border px-2 py-2 text-xs font-medium tracking-wide uppercase backdrop-blur-md">
-          <BadgeCheckIcon className="text-accent-success mr-2 size-4 stroke-2" />
-          Coming Soon
-        </div>
+      <div className="relative mt-12 flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-4 p-2">
         {sponsors.map((sponsor) => (
           <motion.div
             key={sponsor.name}
             transition={{ duration: 0.2 }}
-            className="group flex items-center justify-center"
+            className="group flex items-center justify-center border-y"
           >
             <SponsoredLogo
               logoUrl={sponsor.logo}
               websiteUrl="#"
+              size={24}
               sponsoredName={sponsor.name}
             />
           </motion.div>
         ))}
       </div>
-    </section>
+    </Container>
   );
 };
