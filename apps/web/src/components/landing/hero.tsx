@@ -8,7 +8,6 @@ import { ArrowRightToLineIcon } from "lucide-react";
 import { Badge, Button } from "@repo/ui";
 
 import { Container } from "../core/container";
-import { SubHeroAnimation as SubHeroAnimation2 } from "./hero-animation";
 import { SubHeroAnimation } from "./sub-hero-animation";
 import { WaveBackground } from "./wave-background";
 
@@ -20,6 +19,9 @@ export const Hero = () => {
       <WaveBackground />
 
       <div className="flex w-full flex-col items-center justify-center">
+        <Badge variant={"success"} size={"lg"} className="mb-4">
+          Launching Soon!
+        </Badge>
         <h1 className="text-center text-6xl font-bold tracking-tight text-balance text-shadow-sm md:text-7xl xl:text-8xl">
           Ship Your SaaS in Days,Not Months
         </h1>

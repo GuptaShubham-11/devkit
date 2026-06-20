@@ -40,7 +40,7 @@ const gridItems = [
     description:
       "OAuth, sessions, JWT, RBAC, email verification, and protected route systems built for production.",
     className: "col-span-4 md:col-span-2",
-    titleClass: "text-2xl sm:text-4xl lg:text-5xl",
+    titleClass: "text-3xl sm:text-4xl lg:text-5xl",
     contentSpacing: "mt-6",
     padding: "p-6 sm:p-8",
   },
@@ -100,7 +100,7 @@ export const BentoGrid = () => {
             </span>
 
             <div className="max-w-2xl">
-              <h4 className="text-foreground text-2xl leading-tight font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+              <h4 className="text-foreground text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">
                 Build & Ship Product Faster
               </h4>
 
@@ -113,7 +113,7 @@ export const BentoGrid = () => {
         </motion.div>
 
         {/* Block 06 */}
-        <motion.div className="bg-muted relative col-span-4 border p-5 sm:p-8 md:col-span-1">
+        <motion.div className="bg-muted relative col-span-4 hidden border p-5 sm:p-8 md:col-span-1 md:block">
           <span className="text-foreground bg-background flex size-12 items-center justify-center border text-sm font-medium">
             06
           </span>

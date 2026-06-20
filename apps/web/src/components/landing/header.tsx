@@ -87,7 +87,7 @@ export const Header = () => {
           <Button
             size="sm"
             onClick={() => router.push("/auth/register")}
-            className="group relative overflow-hidden px-2 text-white transition-all duration-900 hover:pr-6 hover:shadow-[0_0_20px_-10px_rgba(99,102,241,0.65)]"
+            className="group relative hidden overflow-hidden px-2 text-white transition-all duration-900 hover:pr-6 hover:shadow-[0_0_20px_-10px_rgba(99,102,241,0.65)] md:block"
           >
             <span className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 opacity-0 transition-opacity duration-900 group-hover:opacity-100" />
 
