@@ -1,61 +1,29 @@
-import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-import { serverEnv } from "@/lib/server-env";
+import { serverEnv } from "./lib/server-env";
 
-const ADMIN_ROUTES = ["/api/admin"];
-
-const matchRoute = (pathname: string, routes: string[]) => {
-  return routes.some((route) => pathname.startsWith(route));
-};
+const IS_DEVELOPMENT = serverEnv.NODE_ENV === "development";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const token = await getToken({
-    req: request,
-    secret: serverEnv.NEXTAUTH_SECRET,
-  });
-
-  const role = token?.isRole;
-
-  // Protect dashboard/account
-  if (pathname.startsWith("/dashboard") || pathname.startsWith("/account")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
-    }
+  if (IS_DEVELOPMENT) {
+    return NextResponse.next();
   }
 
-  // Prevent logged-in users
-  // from auth pages
-  if (
-    pathname === "/" ||
-    pathname.startsWith("/auth/login") ||
-    pathname.startsWith("/auth/register") ||
-    pathname.startsWith("/auth/forgot-password") ||
-    pathname.startsWith("/auth/verify-email")
-  ) {
-    if (token) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
+  const allowedPaths = ["/", "/favicon.ico", "/robots.txt", "/sitemap.xml"];
+
+  const isPublicAsset =
+    pathname.startsWith("/_next") ||
+    pathname.match(/\.(png|jpg|jpeg|gif|svg|webp|ico|txt|xml|json)$/i);
+
+  if (allowedPaths.includes(pathname) || isPublicAsset) {
+    return NextResponse.next();
   }
 
-  // Admin protection
-  if (matchRoute(pathname, ADMIN_ROUTES)) {
-    if (!token || role !== serverEnv.ROLE || "sUpErAdMiN") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
-  }
-
-  return NextResponse.next();
+  return NextResponse.redirect(new URL("/", request.url));
 }
 
 export const config = {
-  matcher: [
-    "/",
-    "/auth/:path*",
-    "/dashboard/:path*",
-    "/account/:path*",
-    "/admin/:path*",
-  ],
+  matcher: ["/((?!api).*)"],
 };

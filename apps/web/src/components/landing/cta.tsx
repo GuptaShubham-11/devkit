@@ -205,7 +205,7 @@ export function CTA() {
           ref={canvasRef}
           width={COLS * STEP - GAP}
           height={ROWS * STEP - GAP}
-          className="block"
+          className="block h-auto w-full origin-center scale-[1] sm:scale-[1.75] md:scale-100"
         />
       </div>
     </Container>
