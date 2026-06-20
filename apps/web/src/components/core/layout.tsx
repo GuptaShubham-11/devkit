@@ -2,6 +2,9 @@
 
 import { useSession } from "next-auth/react";
 
+import { Header as LandingHeader } from "@/components/landing/header";
+
+import { Footer } from "../landing/footer";
 import { Header } from "./header";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -13,8 +16,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      {status === "authenticated" && <Header />}
+      {status === "authenticated" ? <Header /> : <LandingHeader />}
       {children}
+      {status === "unauthenticated" && <Footer />}
     </>
   );
 };
