@@ -19,74 +19,88 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.developerkit.pro"),
   title: {
     default: "Devkit | Production Grade Templates",
-    template: "%s | Devkit", // Allows sub-pages to clean append (e.g., "Pricing | Devkit")
+    template: "%s | Devkit",
   },
   description:
-    "Accelerate your product launch with Devkit. Highly optimized, production-grade templates and boilerplates designed for modern, scalable web development.",
+    "Accelerate your product launch with Devkit. Production-grade Next.js templates, SaaS starters, authentication, payments, emails, databases, and reusable building blocks for modern web applications.",
+  applicationName: "Devkit",
+  category: "Developer Tools",
+  referrer: "origin-when-cross-origin",
   keywords: [
     "Devkit",
-    "Next.js templates",
-    "developer kit pro",
-    "production-grade boilerplates",
-    "SaaS boilerplates",
-    "website templates",
+    "Developer Kit",
+    "Next.js Starter",
+    "Next.js SaaS Starter",
+    "SaaS Boilerplate",
+    "Next.js Templates",
+    "Production Grade Templates",
+    "Developer Tools",
+    "Authentication Template",
+    "TypeScript Boilerplate",
+    "React Templates",
+    "Launch SaaS Fast",
+    "Startup Boilerplate",
+    "Full Stack Template",
+    "Modern Web Development",
   ],
-  authors: [{ name: "Devkit Team", url: "https://www.developerkit.pro" }],
+
+  authors: [
+    {
+      name: "Devkit Team",
+      url: "https://www.developerkit.pro",
+    },
+  ],
+
   creator: "Devkit Team",
   publisher: "Devkit",
+  alternates: {
+    canonical: "/",
+  },
 
-  // 2. Search Engine Indexing Controls
   robots: {
     index: true,
     follow: true,
+    nocache: false,
+
     googleBot: {
       index: true,
       follow: true,
+      noimageindex: false,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
     },
   },
 
-  // 3. Canonical URLs (Eliminates duplicate content penalties)
-  alternates: {
-    canonical: "https://www.developerkit.pro",
-  },
-
-  // 4. Open Graph Meta Tags (For WhatsApp, Discord, LinkedIn, Facebook sharing)
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.developerkit.pro",
+    url: "/",
+    siteName: "Devkit",
     title: "Devkit | Production Grade Templates",
     description:
-      "Accelerate your product launch with Devkit. Highly optimized, production-grade templates and boilerplates.",
-    siteName: "Devkit",
+      "Launch your next product faster with production-grade templates, authentication, payments, emails, and scalable architecture built for modern SaaS applications.",
     images: [
-      {
-        url: "https://www.developerkit.pro/devkit-official.png",
-        width: 800,
-        height: 600,
-        alt: "Devkit",
-      },
+      { url: "/devkit-official.png", width: 1200, height: 630, alt: "Devkit" },
     ],
   },
 
-  // 5. Twitter Card Meta Tags (For X / Twitter visual optimization)
   twitter: {
     card: "summary_large_image",
     title: "Devkit | Production Grade Templates",
     description:
-      "Accelerate your product launch with Devkit. Highly optimized, production-grade templates and boilerplates.",
-    images: ["https://www.developerkit.pro/devkit-official.png"],
+      "Launch your SaaS faster with production-ready templates, authentication, payments, and scalable architecture.",
+    creator: "@developerkitpro",
+    images: ["/devkit-official.png"],
   },
 
-  // 6. Device App and Browser Icons
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/logo.svg",
+    icon: [{ url: "/favicon.ico" }],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-touch-icon.png" }],
   },
 };
 
