@@ -93,7 +93,6 @@ export const metadata: Metadata = {
     title: "Devkit | Production Grade Templates",
     description:
       "Launch your SaaS faster with production-ready templates, authentication, payments, and scalable architecture.",
-    creator: "@developerkitpro",
     images: ["/devkit-official.png"],
   },
 
