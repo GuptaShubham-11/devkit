@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     siteName: "Devkit",
     images: [
       {
-        url: "https://developerkit.pro",
+        url: "https://developerkit.pro/devkit-official.png",
         width: 1200,
         height: 630,
         alt: "Devkit Preview",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     title: "Devkit | Production Grade Templates",
     description:
       "Accelerate your product launch with Devkit. Highly optimized, production-grade templates and boilerplates.",
-    images: ["https://developerkit.pro"],
+    images: ["https://developerkit.pro/devkit-official.png"],
   },
 
   // 6. Device App and Browser Icons
