@@ -5,6 +5,20 @@ import { User as SharedUser } from "@repo/shared";
 
 import { serverEnv } from "@/lib/server-env";
 
+const oAuthSchema = new Schema(
+  {
+    google: {
+      id: { type: String },
+      email: { type: String, lowercase: true, trim: true },
+    },
+    profile: {
+      name: { type: String },
+      image: { type: String },
+    },
+  },
+  { _id: false }
+);
+
 export interface IUser extends Document, Omit<SharedUser, "_id"> {
   _id: mongoose.Types.ObjectId;
 }
@@ -22,44 +36,26 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
-    privateKey: {
+    role: {
       type: String,
-      required: true,
-    },
-    isRole: {
-      type: String,
-      default: "user",
+      enum: ["superAdminUser", "normalUser", "earlyAccessUser"],
+      default: "normalUser",
     },
     profileImage: {
       type: String,
-    },
-
-    currentPlan: {
-      type: String,
-      default: "free",
-    },
-    creditBalance: {
-      type: Number,
-      default: 0,
     },
     isVerified: {
       type: Boolean,
       default: false,
     },
     oAuth: {
-      type: Schema.Types.Mixed,
-      default: null,
+      type: oAuthSchema,
+      default: {},
     },
     otp: {
       type: String,
     },
-    otpExpiry: {
-      type: Date,
-    },
-    shortLivedToken: {
-      type: String,
-    },
-    shortLivedTokenExpiry: {
+    otpExpiredAt: {
       type: Date,
     },
     emailVerifiedAt: {
@@ -74,15 +70,6 @@ const userSchema = new Schema<IUser>(
     },
     lockedUntil: {
       type: Date,
-    },
-    bio: {
-      type: String,
-    },
-    website: {
-      type: String,
-    },
-    githubUsername: {
-      type: String,
     },
     isDeleted: {
       type: Boolean,

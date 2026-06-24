@@ -1,3 +1,18 @@
+export interface SponsoredBy {
+  name?: string;
+  url?: string;
+  logo?: string;
+}
+
+export interface Installer {
+  name: string;
+  dependencies: string;
+  devDependencies: string;
+  installCommand: string;
+  addDependenciesCommand: string;
+  addDevDependenciesCommand: string;
+}
+
 export interface Template {
   _id: string;
 
@@ -5,52 +20,31 @@ export interface Template {
   slug: string;
   description: string;
 
-  token: string;
-
   stack: string[];
   tags: string[];
   features: string[];
 
-  repoUrl: string;
+  githubRepoUrl: string;
   version: string;
 
-  codeUrl?: string;
   liveUrl?: string;
-
   folderStructure: string;
 
-  withoutLogin: boolean;
-
-  isPro: boolean;
-  creditCost: number;
+  isPremium: boolean;
+  cost: number;
 
   isPublished: boolean;
   isFeatured: boolean;
-  isSponsored: boolean;
   isDeleted: boolean;
 
-  sponsoredBy?: {
-    name?: string;
-    url?: string;
-    logo?: string;
-  };
+  isSponsored: boolean;
+  sponsoredBy?: SponsoredBy[];
 
   isRepoTemplate: boolean;
-
-  installer: {
-    name: string;
-    dependencies: string;
-    devDependencies: string;
-    installCommand: string;
-    addDependenciesCommand: string;
-    addDevDependenciesCommand: string;
-  };
+  installer: Installer;
 
   imageUrl: string;
-  videoUrl?: string;
-
   views: number;
-  copies: number;
   downloads: number;
 
   createdAt: Date;

@@ -2,16 +2,9 @@ export interface User {
   _id: string;
   email: string;
   password: string;
-  privateKey: string;
 
-  isRole: string;
-  profileImage?: string;
-  bio?: string;
-  website?: string;
-  githubUsername?: string;
-
-  currentPlan: string;
-  creditBalance: number;
+  role: string;
+  profileImage: string;
 
   oAuth?: {
     google?: {
@@ -25,20 +18,18 @@ export interface User {
   };
 
   isVerified: boolean;
+  emailVerifiedAt?: Date;
+
   otp?: string;
-  otpExpiry?: string;
-  emailVerifiedAt: Date;
+  otpExpiredAt?: Date;
 
-  lastLoginAt?: string;
-  loginAttempts?: number;
-  lockedUntil?: string;
+  lastLoginAt?: Date;
+  loginAttempts: number;
+  lockedUntil?: Date;
 
-  shortLivedToken?: string;
-  shortLivedTokenExpiry?: string;
+  isDeleted: boolean;
+  deletedAt?: Date;
 
-  isDeleted?: boolean;
-  deletedAt?: string;
-
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
