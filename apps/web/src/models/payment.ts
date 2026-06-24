@@ -3,10 +3,10 @@ import mongoose, { model, models, Schema } from "mongoose";
 import { Payment as SharedPayment } from "@repo/shared";
 
 export interface IPayment
-  extends Document, Omit<SharedPayment, "_id" | "userId" | "paymentId"> {
+  extends Document, Omit<SharedPayment, "_id" | "userId" | "templateId"> {
   _id: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
-  paymentId: string;
+  templateId?: mongoose.Types.ObjectId;
 }
 
 const paymentSchema = new Schema<IPayment>(
@@ -28,6 +28,26 @@ const paymentSchema = new Schema<IPayment>(
       sparse: true,
       unique: true,
     },
+    type: {
+      type: String,
+      required: true,
+    },
+    templateId: {
+      type: Schema.Types.ObjectId,
+      ref: "Template",
+    },
+    startAt: {
+      type: Date,
+    },
+    endAt: {
+      type: Date,
+    },
+    renewalAt: {
+      type: Date,
+    },
+    renewedAt: {
+      type: Date,
+    },
     planId: {
       type: String,
       required: true,
@@ -41,30 +61,25 @@ const paymentSchema = new Schema<IPayment>(
       type: String,
       required: true,
     },
-    creditsGranted: {
-      type: Number,
-      required: true,
-    },
     status: {
       type: String,
       required: true,
-      index: true,
     },
     invoiceUrl: {
       type: String,
     },
     metadata: {
       type: Schema.Types.Mixed,
+      default: {},
     },
   },
   {
     timestamps: true,
-    versionKey: false,
   }
 );
 
-// Additional compound indexes if needed in the future
-// paymentSchema.index({ userId: 1, createdAt: -1 });
+paymentSchema.index({ userId: 1, status: 1 });
+paymentSchema.index({ paymentId: 1, status: 1 });
 
 export const Payment =
   models.Payment || model<IPayment>("Payment", paymentSchema);

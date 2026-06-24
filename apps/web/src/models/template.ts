@@ -1,11 +1,40 @@
 import mongoose, { model, models, Schema } from "mongoose";
 
-import { Template as SharedTemplate } from "@repo/shared";
+import {
+  Installer as IInstaller,
+  SponsoredBy as ISponsoredBy,
+  Template as SharedTemplate,
+} from "@repo/shared";
 
 export interface ITemplate
-  extends Omit<SharedTemplate, "_id">, mongoose.Document {
+  extends
+    Omit<SharedTemplate, "_id" | "sponsoredBy" | "installer">,
+    mongoose.Document {
   _id: mongoose.Types.ObjectId;
+  sponsoredBy?: ISponsoredBy[];
+  installer: IInstaller;
 }
+
+const sponsoredBySchema = new Schema<ISponsoredBy>(
+  {
+    name: { type: String },
+    url: { type: String },
+    logo: { type: String },
+  },
+  { _id: false }
+);
+
+const installerSchema = new Schema<IInstaller>(
+  {
+    name: { type: String, required: true },
+    dependencies: { type: String, required: true },
+    devDependencies: { type: String, required: true },
+    installCommand: { type: String, required: true },
+    addDependenciesCommand: { type: String, required: true },
+    addDevDependenciesCommand: { type: String, required: true },
+  },
+  { _id: false }
+);
 
 const templateSchema = new Schema<ITemplate>(
   {
@@ -23,10 +52,6 @@ const templateSchema = new Schema<ITemplate>(
       type: String,
       required: true,
     },
-    token: {
-      type: String,
-      required: true,
-    },
     stack: {
       type: [String],
       required: true,
@@ -39,16 +64,13 @@ const templateSchema = new Schema<ITemplate>(
       type: [String],
       required: true,
     },
-    repoUrl: {
+    githubRepoUrl: {
       type: String,
       required: true,
     },
     version: {
       type: String,
       required: true,
-    },
-    codeUrl: {
-      type: String,
     },
     liveUrl: {
       type: String,
@@ -57,15 +79,11 @@ const templateSchema = new Schema<ITemplate>(
       type: String,
       required: true,
     },
-    withoutLogin: {
+    isPremium: {
       type: Boolean,
       default: false,
     },
-    isPro: {
-      type: Boolean,
-      default: false,
-    },
-    creditCost: {
+    cost: {
       type: Number,
       default: 0,
     },
@@ -85,59 +103,17 @@ const templateSchema = new Schema<ITemplate>(
       type: Boolean,
       default: false,
     },
-    sponsoredBy: {
-      name: {
-        type: String,
-      },
-      url: {
-        type: String,
-      },
-      logo: {
-        type: String,
-      },
-    },
+    sponsoredBy: [sponsoredBySchema],
     isRepoTemplate: {
       type: Boolean,
       default: false,
     },
-    installer: {
-      name: {
-        type: String,
-        required: true,
-      },
-      dependencies: {
-        type: String,
-        default: "",
-      },
-      devDependencies: {
-        type: String,
-        default: "",
-      },
-      installCommand: {
-        type: String,
-        required: true,
-      },
-      addDependenciesCommand: {
-        type: String,
-        required: true,
-      },
-      addDevDependenciesCommand: {
-        type: String,
-        required: true,
-      },
-    },
+    installer: installerSchema,
     imageUrl: {
       type: String,
       required: true,
     },
-    videoUrl: {
-      type: String,
-    },
     views: {
-      type: Number,
-      default: 0,
-    },
-    copies: {
       type: Number,
       default: 0,
     },
